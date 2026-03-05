@@ -369,8 +369,6 @@ class ProductsController extends Controller
     $atributos = null;
 
 
-
-
     $request->validate([
       'producto' => 'required',
     ]);
@@ -391,20 +389,6 @@ class ProductsController extends Controller
 
           $num = substr($key, strrpos($key, '-') + 1); // Obtener el número de la especificación
           $especificaciones[$num]['specifications'] = $value; // Agregar las especificaciones al array asociativo
-        } elseif (strpos($key, 'conbinacion-') === 0) {
-          $num = substr($key, strrpos($key, '-') + 1);
-          $combinacion = Combinacion::find($num)->update([
-            'color_id' => $value["color"],
-            'talla_id' => $value["talla"],
-            'stock' => $value["stock"],
-          ]);
-        } elseif (strpos($key, 'updateComb-') === 0) {
-          Combinacion::create([
-            "product_id" => $id,
-            "color_id" => $value["color"],
-            "talla_id" => $value["talla"],
-            "stock" => $value["stock"],
-          ]);
         } elseif (strpos($key, 'imagenP-') === 0) {
           $colorId = substr($key, strrpos($key, '-') + 1);
           $isCaratula = 0;
@@ -423,12 +407,7 @@ class ProductsController extends Controller
           $dataGalerie['type_imagen'] = 'primary';
           $dataGalerie['caratula'] = $isCaratula;
           $dataGalerie['color_id'] = $colorId;
-          // $dataGalerie['type_img'] = 'gall';
 
-          /* if($cleanGaleria){
-            $cleanGaleria = false ; 
-            DB::delete('delete from imagen_productos where product_id = ?', [$id]);
-          } */
 
           ImagenProducto::create($dataGalerie);
         } elseif (strpos($key, 'attrid-') === 0) {
@@ -479,6 +458,7 @@ class ProductsController extends Controller
 
 
     $product->update($cleanedData);
+    $this->actdeCombinaciones($id, $request);
 
     DB::delete('delete from attribute_product_values where product_id = ?', [$product->id]);
 
@@ -506,6 +486,61 @@ class ProductsController extends Controller
     }
     $this->actualizarEspecificacion($especificaciones);
     return redirect()->route('products.index')->with('success', 'Producto editado exitosamente.');
+  }
+
+  private function actdeCombinaciones($id, $request)
+  {
+    DB::transaction(function () use ($id, $request) {
+
+      $idsEnviados = [];
+
+      foreach ($request->all() as $key => $value) {
+
+        // CASO A: Combinaciones existentes (tienen un ID en la llave)
+        if (str_starts_with($key, 'conbinacion-')) {
+          $combId = substr($key, strrpos($key, '-') + 1);
+
+          $combinacion = Combinacion::updateOrCreate(
+            ['id' => $combId], // Busca por ID
+            [
+              'product_id' => $id,
+              'color_id'   => $value["color"],
+              'talla_id'   => $value["talla"],
+              'stock'      => $value["stock"],
+            ]
+          );
+          $idsEnviados[] = $combinacion->id;
+        }
+
+        // CASO B: Combinaciones nuevas (no tienen ID previo)
+        elseif (str_starts_with($key, 'updateComb-')) {
+          $nuevaComb = Combinacion::create([
+            'product_id' => $id,
+            'color_id'   => $value["color"],
+            'talla_id'   => $value["talla"],
+            'stock'      => $value["stock"],
+          ]);
+          $idsEnviados[] = $nuevaComb->id;
+        }
+      }
+
+
+
+      $combinacionesABorrar = Combinacion::where('product_id', $id)
+        ->whereNotIn('id', $idsEnviados)
+        ->get();
+
+      foreach ($combinacionesABorrar as $conflicto) {
+        // Verificamos si tiene ventas (detalle_ordens)
+        $tieneVentas = DB::table('detalle_ordens')->where('combinacion_id', $conflicto->id)->exists();
+
+        if (!$tieneVentas) {
+          $conflicto->delete(); // Solo borra si está limpia
+        } else {
+          $conflicto->update(['stock' => 0]);
+        }
+      }
+    });
   }
 
   /* Funcion para manejar la actualizacion de imagen  */
