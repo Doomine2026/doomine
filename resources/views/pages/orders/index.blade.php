@@ -24,6 +24,7 @@
           <table id="tabladatos" class="display text-lg" style="width:100%">
             <thead>
               <tr>
+                <th>id</th>
                 <th>Codigo de pedido</th>
                 <th>Usuario</th>
                 <th>Monto de pago</th>
@@ -36,6 +37,7 @@
 
               @foreach ($orders as $item)
                 <tr>
+                  <td>{{ $item->id }}</a></td>
                   <td><a href="{{ route('verPedido', $item->id) }}">#{{ $item->codigo_orden }}</a></td>
                   <td>{{ $item->usuarioPedido->email ?? 'No email' }}</td>
                   <td>{{ $item->monto }}</td>
@@ -96,6 +98,9 @@
     new DataTable('#tabladatos', {
       //   responsive: true
       // buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
+      order: [
+        [0, 'desc']
+      ],
       layout: {
         topStart: 'buttons'
       },

@@ -13,19 +13,21 @@ class PedidosController extends Controller
 {
     public function listadoPedidos()
     {
-        
-        $orders = Ordenes::with('usuarioPedido')->with('statusOrdenes')->get();
-        
-        return view('pages.orders.index', compact('orders'));  
+
+        $orders = Ordenes::with('usuarioPedido')->with('statusOrdenes')
+            // ->orderBy('id', 'desc')
+            ->get();
+
+        return view('pages.orders.index', compact('orders'));
     }
 
 
     public function verPedido($id)
     {
         $orders = Ordenes::where('id',  $id)->with('usuarioPedido')->with('statusOrdenes')->with('DetalleOrden')->first();
-        
+
         $direccion = AddressUser::where('id', '=', $orders->address_id)->first();
-        $departamentos = DB::table('departments')->where('id', '=',$direccion->departamento_id )->get();
+        $departamentos = DB::table('departments')->where('id', '=', $direccion->departamento_id)->get();
         $provincias = DB::table('provinces')->where('id', '=', $direccion->provincia_id)->get();
         $distritos = DB::table('districts')->where('id', '=', $direccion->distrito_id)->get();
 
@@ -33,16 +35,15 @@ class PedidosController extends Controller
 
         foreach ($orders->DetalleOrden as $item) {
             $subtotal += $item->precio * $item->cantidad;
-        } 
+        }
 
         $producto = Products::select('products.*', 'imagen_productos.name_imagen')
-                        ->join('detalle_ordens' , 'products.id', '=', 'detalle_ordens.producto_id')
-                        ->join('imagen_productos', 'products.id' , '=', 'imagen_productos.product_id')
-                        ->where('detalle_ordens.orden_id', '=', $id)
-                        ->where('imagen_productos.caratula', '=', 1)
-                        ->get();
-        
-        return view('pages.orders.show', compact('orders','direccion','producto', 'subtotal', 'departamentos','provincias','distritos'));
+            ->join('detalle_ordens', 'products.id', '=', 'detalle_ordens.producto_id')
+            ->join('imagen_productos', 'products.id', '=', 'imagen_productos.product_id')
+            ->where('detalle_ordens.orden_id', '=', $id)
+            ->where('imagen_productos.caratula', '=', 1)
+            ->get();
 
+        return view('pages.orders.show', compact('orders', 'direccion', 'producto', 'subtotal', 'departamentos', 'provincias', 'distritos'));
     }
 }
