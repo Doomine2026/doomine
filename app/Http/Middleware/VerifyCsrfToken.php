@@ -17,6 +17,7 @@ class VerifyCsrfToken extends Middleware
         'agradecimiento',
         '/procesar/pago',
         'cambiogaleria',
-        '/obtenerProvincia/{departmentId}'
+        '/obtenerProvincia/{departmentId}',
+        '/guardarformulario'
     ];
 }

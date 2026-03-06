@@ -148,7 +148,7 @@
                 solicitud y enviarte promociones y noticias de nuestros productos. Tu privacidad es
                 importante para nosotros. No compartiremos tus datos con terceros sin tu consentimiento.
                 Para más detalles, consulta nuestra Política de Privacidad y Términos de Uso. Si tienes
-                preguntas, contáctanos en info@doomie.com
+                preguntas, contáctanos en ventas@doomine.com
               </p>
             </div>
           </div>
