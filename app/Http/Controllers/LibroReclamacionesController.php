@@ -72,7 +72,7 @@ class LibroReclamacionesController extends Controller
         
 
         LibroReclamaciones::create($validatedData);
-        // $this-> envioCorreoLibrodeReclamacion($validatedData);
+        $this-> envioCorreoLibrodeReclamacion($validatedData);
         return response()->json(['message' => 'Mensaje enviado']);
         
     }
@@ -178,7 +178,7 @@ class LibroReclamacionesController extends Controller
                     height: 700px;
                     margin: 0 auto;
                     text-align: center;
-                    background-image: url(https://decotab.pe/mail/ImagenFondo.png);
+                    background-image: url(https://doomine.com/images/img/arrives_7.png);
                     background-repeat: no-repeat;
                     background-position: center;
                     background-size: cover;
@@ -195,7 +195,7 @@ class LibroReclamacionesController extends Controller
                           margin: 40px;
                         "
                       >
-                        <img src="https://decotab.pe/mail/logodecotab.png" alt="mundo web" />
+                        <img src="https://doomine.com/images/img/logo3x.png" alt="doomineLogo" />
                       </th>
                     </tr>
                   </thead>
@@ -204,7 +204,7 @@ class LibroReclamacionesController extends Controller
                       <td style="height: 10px">
                         <p
                           style="
-                            color: #ffffff;
+                            color: #285195;
                             font-weight: 500;
                             font-size: 18px;
                             text-align: center;
@@ -222,7 +222,7 @@ class LibroReclamacionesController extends Controller
                       <td style="height: 10px">
                         <p
                           style="
-                            color: #ffffff;
+                            color: #212121;
                             font-size: 40px;
                             font-family: Montserrat, sans-serif;
                             line-height: 60px;
@@ -236,7 +236,7 @@ class LibroReclamacionesController extends Controller
                       <td style="height: 10px">
                         <p
                           style="
-                            color: #74a68d;
+                            color: #285195;
                             font-size: 40px;
                             font-family: Montserrat, sans-serif;
                             font-weight: bold;
@@ -244,7 +244,7 @@ class LibroReclamacionesController extends Controller
                           "
                         >
                           !Gracias
-                          <span style="color: #ffffff">por escribirnos!</span>
+                          <span style="color: #285195">Hemos recibido su reclamo. !</span>
                         </p>
                       </td>
                     </tr>
@@ -252,7 +252,7 @@ class LibroReclamacionesController extends Controller
                       <td style="height: 10px">
                         <p
                           style="
-                            color: #ffffff;
+                            color: white;
                             font-weight: 500;
                             font-size: 18px;
                             text-align: center;
@@ -273,7 +273,7 @@ class LibroReclamacionesController extends Controller
                     "
                     >
                         <a
-                          href="https://decotab.pe/"
+                          href="https://doomine.com/"
                           style="
                             text-decoration: none;
                             background-color: #74a68d;
@@ -303,7 +303,8 @@ class LibroReclamacionesController extends Controller
             $mail->send();
             
         } catch (\Throwable $th) {
-            //throw $th;
+            // throw $th;
+dump($th);
         }  
       }
 }

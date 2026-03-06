@@ -110,6 +110,7 @@ Route::get('/politica-envio/', [IndexController::class, 'pliticaDeEnvio'])->name
 
 
 
+Route::post('guardarformulario', [LibroReclamacionesController::class, 'storePublic'] )->name('guardarFormReclamo');
 
 
 
@@ -243,7 +244,6 @@ Route::middleware(['auth:sanctum', 'verified', 'can:Admin'])->group(function () 
         Route::get('/orders', [PedidosController::class, 'listadoPedidos'])->name('orders');
         Route::get('/orders/{id}', [PedidosController::class, 'verPedido'])->name('verPedido');
         
-        Route::post('guardarformulario', [LibroReclamacionesController::class, 'storePublic'] )->name('guardarFormReclamo');
 
         Route::resource('/reclamo', LibroReclamacionesController::class);
         Route::post('/reclamo/borrar', [LibroReclamacionesController::class, 'borrar'])->name('reclamo.borrar');
