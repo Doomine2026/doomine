@@ -256,7 +256,15 @@ class IndexController extends Controller
   {
     //
     $url_env = $_ENV['APP_URL'];
-    $departamentos = DB::table('departments')->get();
+    $departamentos = DB::table('departments')
+      ->select(['departments.*'])
+      ->join('provinces', 'provinces.department_id', 'departments.id')
+      ->join('districts', 'districts.province_id', 'provinces.id')
+      ->join('prices', 'prices.distrito_id', 'districts.id')
+      ->groupBy('departments.id')
+      ->get();
+
+
     return view('public.checkout_carrito', compact('url_env', 'departamentos'));
   }
 

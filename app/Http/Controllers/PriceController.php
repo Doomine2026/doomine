@@ -17,11 +17,11 @@ class PriceController extends Controller
     {
         //
         $precios = Price::where("status", "=", true)->get();
-        
+
         $departamentos = DB::table('departments')->get();
         $provincias = DB::table('provinces')->get();
         $distritos = DB::table('districts')->get();
-       
+
         return view('pages.prices.index', compact('precios', 'departamentos', 'provincias', 'distritos'));
     }
 
@@ -40,10 +40,20 @@ class PriceController extends Controller
     {
         //
         //traemos las provincias de la tabla
-        
+
         $provincias = DB::table('provinces')
-                    ->where('department_id', '=', $request->id)
-                    ->get();
+            ->select(['provinces.*'])
+
+            ->join('districts', 'districts.province_id', 'provinces.id')
+            ->join('prices', 'prices.distrito_id', 'districts.id')
+            ->where('department_id', '=', $request->id)
+            ->where("prices.status", "=", true)
+            ->groupBy('provinces.id')
+            ->get();
+
+
+
+
 
         return response()->json($provincias);
     }
@@ -52,20 +62,23 @@ class PriceController extends Controller
     {
         //
         //traemos las provincias de la tabla
-        
+
         $distritos = DB::table('districts')
-                    ->where('province_id', '=', $request->id)
-                    ->get();
+            ->select(['districts.*'])
+            ->where('province_id', '=', $request->id)
+            ->join('prices', 'prices.distrito_id', 'districts.id')
+            ->get();
 
         return response()->json($distritos);
     }
-    public function calculeEnvio(Request $request){
-        
-       $LocalidadParaEnvio = Price::where('distrito_id',$request->id)->get();
-        return response()->json(['message'=> 'LLegando Correctamente', 'LocalidadParaEnvio'=> $LocalidadParaEnvio]);
+    public function calculeEnvio(Request $request)
+    {
+
+        $LocalidadParaEnvio = Price::where('distrito_id', $request->id)->get();
+        return response()->json(['message' => 'LLegando Correctamente', 'LocalidadParaEnvio' => $LocalidadParaEnvio]);
     }
 
-    
+
 
     /**
      * Store a newly created resource in storage.
@@ -74,7 +87,7 @@ class PriceController extends Controller
     {
         //
         $request->validate([
-           'price' => 'required' 
+            'price' => 'required'
         ]);
         $price = new Price();
 
@@ -84,13 +97,12 @@ class PriceController extends Controller
         $price->visble = 1;
 
         //preguntamos si es lima o no ID=15
-        if($request->departamento_id == 15){
-            if($request->provincia_id == 1501){
+        if ($request->departamento_id == 15) {
+            if ($request->provincia_id == 1501) {
                 $price->local = 1;
-            }else{
+            } else {
                 $price->local = 0;
             }
-            
         }
 
         $price->save();
@@ -112,12 +124,12 @@ class PriceController extends Controller
     public function edit(Price $price)
     {
         //
-        
+
         // $price = Price::where('id', = , 'prioce')
-        $departamentos = DB::table('departments')->get() ;
-       $distritos = DB::table('districts')
-        ->where('id', '=', $price->distrito_id)
-        ->get();
+        $departamentos = DB::table('departments')->get();
+        $distritos = DB::table('districts')
+            ->where('id', '=', $price->distrito_id)
+            ->get();
         //distrito
 
         return view('pages.prices.edit', compact('price', 'departamentos', 'distritos'));
@@ -140,10 +152,11 @@ class PriceController extends Controller
     {
         //
     }
-    public function borrar(Request $request){
+    public function borrar(Request $request)
+    {
         $price = Price::find($request->id);
         $price->delete();
         // $price->save();
-        return response()->json(['message'=> 'Borrado correctamente', 'price'=> $price]);
+        return response()->json(['message' => 'Borrado correctamente', 'price' => $price]);
     }
 }
