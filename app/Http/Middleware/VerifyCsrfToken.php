@@ -18,6 +18,7 @@ class VerifyCsrfToken extends Middleware
         '/procesar/pago',
         'cambiogaleria',
         '/obtenerProvincia/{departmentId}',
-        '/guardarformulario'
+        '/guardarformulario',
+        '/api/v1/payments/webhook/izipay'
     ];
 }
