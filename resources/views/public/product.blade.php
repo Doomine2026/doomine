@@ -423,7 +423,7 @@
 
             if (Number(response.tallas[0].stock) > 0) {
               console.log('numero mayora a 0 ')
-              $('#textoStock').text(`Con Stock: ${response.tallas[0].stock}`)
+              $('#textoStock').text(`Con Stock`)
               $('#btnAgregarCarrito')
                 .removeClass('opacity-50 cursor-not-allowed')
                 .attr('disabled', false);
