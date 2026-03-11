@@ -615,34 +615,19 @@ class IndexController extends Controller
 
     $product = Products::findOrFail($id);
 
-    $colors = Products::select([
-      'products.producto',
-      'products.precio',
-      'products.descuento',
-      'products.preciofiltro',
-
-      'products.imagen',
-      'products.destacar',
-      'products.liquidacion',
-      'products.recomendar',
-      'products.atributes',
-      'products.visible',
-      'products.status',
-      'products.extract',
-      'products.description',
-      'products.costo_x_art',
-      'products.peso',
-      'products.categoria_id',
-      'products.collection_id',
-      'products.sku',
-      'products.order',
-      'combinaciones.*',
-      'attributes_values.*'
-    ])
-      ->join('combinaciones', 'products.id', 'combinaciones.product_id')
-      ->join('attributes_values', 'attributes_values.id', 'combinaciones.color_id')
-      ->where('product_id', $id)
+    $colors = DB::table('products')
+      ->join('combinaciones', 'products.id', '=', 'combinaciones.product_id')
+      ->join('attributes_values', 'attributes_values.id', '=', 'combinaciones.color_id')
+      ->select([
+        'attributes_values.id',
+        'products.id as product_id',
+        'attributes_values.valor',
+        'attributes_values.color',
+        DB::raw('JSON_ARRAYAGG(JSON_OBJECT("talla_id", combinaciones.talla_id, "stock", combinaciones.stock)) as tallas')
+      ])
+      ->where('combinaciones.product_id', $id)
       ->where('combinaciones.stock', '>', 0)
+      ->groupBy('attributes_values.id', 'products.id', 'attributes_values.valor', 'attributes_values.color')
       ->get();
 
 
