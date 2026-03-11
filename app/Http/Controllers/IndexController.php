@@ -913,12 +913,14 @@ class IndexController extends Controller
 
     //creamos detalle de orden
     foreach ($carrito as $key => $value) {
+      $descuento = $value['descuento'] ?? 0;
+      $monto = $descuento > 0 ? $descuento : $value['precio'];
 
       DetalleOrden::create([
         'producto_id' => $value['id'],
         'cantidad' => $value['cantidad'],
         'orden_id' => $orden->id,
-        'precio' => $value['precio'],
+        'precio' => $monto,
         'combinacion_id' => $value['combinacionId']
       ]);
     }
