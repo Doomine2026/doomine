@@ -33,7 +33,9 @@ class PriceController extends Controller
         //
         //traemos las provincias de la tabla
         $departamentos = DB::table('departments')->get();
-        return view('pages.prices.create', compact('departamentos'));
+        $provincias = DB::table('provinces')->get();
+        $distritos = DB::table('districts')->get();
+        return view('pages.prices.create', compact('departamentos', 'provincias', 'distritos'));
     }
 
     public function getProvincias(Request $request)
@@ -52,9 +54,6 @@ class PriceController extends Controller
             ->get();
 
 
-
-
-
         return response()->json($provincias);
     }
 
@@ -67,6 +66,32 @@ class PriceController extends Controller
             ->select(['districts.*'])
             ->where('province_id', '=', $request->id)
             ->join('prices', 'prices.distrito_id', 'districts.id')
+            ->get();
+
+        return response()->json($distritos);
+    }
+
+    public function getProvincias2(Request $request)
+    {
+        //
+        //traemos las provincias de la tabla
+
+        $provincias = DB::table('provinces')
+            ->where('department_id', '=', $request->id)
+
+            ->get();
+
+
+        return response()->json($provincias);
+    }
+
+    public function getDistrito2(Request $request)
+    {
+        //
+        //traemos las provincias de la tabla
+
+        $distritos = DB::table('districts')
+            ->where('province_id', '=', $request->id)
             ->get();
 
         return response()->json($distritos);
