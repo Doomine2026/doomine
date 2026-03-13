@@ -9,7 +9,7 @@ class Ordenes extends Model
 {
     use HasFactory;
     protected $fillable = [
-        
+
         'codigo_orden',
         'monto',
         'precio_envio',
@@ -18,16 +18,17 @@ class Ordenes extends Model
         'address_id'
     ];
 
-    public function DetalleOrden(){
+    public function DetalleOrden()
+    {
         return $this->hasMany(DetalleOrden::class, 'orden_id');
-      } 
-    public function statusOrdenes(){
+    }
+    public function statusOrdenes()
+    {
         return $this->belongsTo(StatusOrden::class, 'status_id');
     }
 
-    public function usuarioPedido(){
-        return $this->belongsTo(User::class, 'usuario_id');
+    public function usuarioPedido()
+    {
+        return $this->belongsTo(UserDetails::class, 'usuario_id');
     }
-
-    
 }
