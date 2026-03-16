@@ -5,9 +5,11 @@
 @stop
 
 
+
 @section('content')
 
   <main>
+
     <section class="font-poppins my-12 w-11/12 mx-auto">
       <div class="flex flex-col 2md:flex-row gap-32 md:gap-10 w-11/12 mx-auto">
         <div class="md:basis-1/2 flex flex-col gap-10 basis-0">
@@ -97,16 +99,86 @@
     });
   </script>
 
-  <script>
-    var appUrl = '{{ env('APP_URL') }}';
-
-    // Agrega más variables de entorno aquí según sea necesario
-  </script>
-
 
   <script src="{{ asset('js/carrito.js') }}"></script>
 
   <script src="{{ asset('js/storage.extend.js') }}"></script>
+
+  @production
+    <script>
+      let orden = @json($orden);
+
+      if (!orden || !orden.id) {
+        console.warn("Orden no encontrada para tracking");
+        return
+      }
+
+      const googleKey = `ga_purchase_sent_${orden.id}`;
+      const fbKey = `fb_purchase_sent_${orden.id}`;
+      const tiktokKey = `tiktok_purchase_sent_${orden.id}`;
+
+      const googleSent = localStorage.getItem(googleKey);
+      const fbSent = localStorage.getItem(fbKey);
+      const tiktokSent = localStorage.getItem(tiktokKey);
+
+      window.dataLayer = window.dataLayer || [];
+
+      /* -------- GOOGLE (GTM) -------- */
+
+      if (googleSent !== "true") {
+
+        window.dataLayer.push({
+          event: "purchase",
+          ecommerce: {
+            value: Number(orden.monto),
+            currency: "PEN",
+          },
+          enhanced_conversion: {
+            email: orden.usuario_pedido?.email || ""
+          },
+        });
+
+        localStorage.setItem(googleKey, "true");
+      }
+
+      /* esperar a que carguen pixels */
+
+      setTimeout(() => {
+
+        /* -------- FACEBOOK -------- */
+
+        if (fbSent !== "true" && window.fbq) {
+
+          const eventId = `purchase_${orden.id}`;
+
+          window.fbq('track', 'Purchase', {
+            value: Number(orden.monto),
+            currency: 'PEN'
+          }, {
+            eventID: eventId
+          });
+
+          localStorage.setItem(fbKey, "true");
+        }
+
+        /* -------- TIKTOK -------- */
+
+        if (tiktokSent !== "true" && window.ttq) {
+
+          const eventId = `purchase_${orden.id}`;
+
+          window.ttq.track('Purchase', {
+            value: Number(orden.monto),
+            currency: 'PEN',
+            event_id: eventId
+          });
+
+          localStorage.setItem(tiktokKey, "true");
+        }
+
+      }, 500);
+    </script>
+  @endproduction
 
 @stop
 

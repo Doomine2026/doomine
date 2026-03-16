@@ -391,12 +391,12 @@ class IndexController extends Controller
       $this->marcarOrdenComoProcesada($orden);
     }
 
-    return view('public.checkout_agradecimiento', compact('codigoCompra'));
+    return view('public.checkout_agradecimiento', compact('codigoCompra', 'orden'));
   }
 
   private function obtenerOrdenPorCodigo($codigoCompra)
   {
-    return Ordenes::where('codigo_orden', $codigoCompra)->first();
+    return Ordenes::where('codigo_orden', $codigoCompra)->with(['usuarioPedido'])->first();
   }
 
   private function esOrdenNueva($orden)

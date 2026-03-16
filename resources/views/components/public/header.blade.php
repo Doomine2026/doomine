@@ -298,7 +298,7 @@
             success: function(data) {
               var resultsHtml = '';
               var url = '{{ asset('') }}';
-              console.log(data)
+
               data.forEach(function(result) {
                 resultsHtml +=
                   `
@@ -344,7 +344,7 @@
             success: function(data) {
               var resultsHtml = '';
               var url = '{{ asset('') }}';
-              console.log(data)
+
               data.forEach(function(result) {
                 resultsHtml +=
                   `

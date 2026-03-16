@@ -10,7 +10,7 @@
   {{-- <link rel="stylesheet" href="{{ asset('css/styles.css') }}" /> --}}
   <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-  
+
   @stack('head')
 
   {{-- Aqui van los CSS --}}
@@ -27,7 +27,7 @@
   {{-- Sweet Alert --}}
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-  
+
 
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>@yield('title', config('app.name', 'Laravel'))</title>
@@ -55,59 +55,59 @@
   <script src="{{ asset('js/function.js') }}"></script>
   <script src="{{ asset('js/carrito.js') }}"></script>
 
-   <script>
-        function alerta(message) {
-            Swal.fire({
-                title: message,
-                icon: "error",
-            });
+  <script>
+    function alerta(message) {
+      Swal.fire({
+        title: message,
+        icon: "error",
+      });
+    }
+
+    function validarTelefono(value) {
+      if (value !== '') {
+        if (isNaN(value)) {
+          alerta("Por favor, asegúrate de ingresar solo números en el teléfono");
+          return false;
         }
+      }
 
-        function validarTelefono(value) {
-            if (value !== '') {
-                if (isNaN(value)) {
-                    alerta("Por favor, asegúrate de ingresar solo números en el teléfono");
-                    return false;
-                }
-            }
+      if (value.length < 9) {
+        alerta("El teléfono debe tener 9 dígitos");
+        return false;
+      }
 
-            if (value.length < 9) {
-                alerta("El teléfono debe tener 9 dígitos");
-                return false;
-            }
+      return true;
+    }
 
-            return true;
-        }
+    function validarEmail(value) {
 
-        function validarEmail(value) {
-            console.log(value)
-            const regex =
-                /^(([^<>()\[\]\\.,;:\s@”]+(\.[^<>()\[\]\\.,;:\s@”]+)*)|(“.+”))@((\[[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}])|(([a-zA-Z\-0–9]+\.)+[a-zA-Z]{2,}))$/
+      const regex =
+        /^(([^<>()\[\]\\.,;:\s@”]+(\.[^<>()\[\]\\.,;:\s@”]+)*)|(“.+”))@((\[[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}])|(([a-zA-Z\-0–9]+\.)+[a-zA-Z]{2,}))$/
 
-            if (!regex.test(value)) {
-                alerta("Por favor, asegúrate de ingresar una dirección de correo electrónico válida");
-                return false;
-            }
-            return true;
-        }
+      if (!regex.test(value)) {
+        alerta("Por favor, asegúrate de ingresar una dirección de correo electrónico válida");
+        return false;
+      }
+      return true;
+    }
 
-        $('#formContactosLanding').submit(function(event) {
+    $('#formContactosLanding').submit(function(event) {
 
-            event.preventDefault();
-            let formDataArray = $(this).serializeArray();
+      event.preventDefault();
+      let formDataArray = $(this).serializeArray();
 
-            if (!validarTelefono($('#telefono').val())) {
-                return;
-            };
+      if (!validarTelefono($('#telefono').val())) {
+        return;
+      };
 
-            if (!validarEmail($('#email').val())) {
-                return;
-            };
+      if (!validarEmail($('#email').val())) {
+        return;
+      };
 
-            Swal.fire({
+      Swal.fire({
 
-                title: 'Procesando información',
-                html: `Enviando.. 
+        title: 'Procesando información',
+        html: `Enviando.. 
                     <p class=" text-text12">Revise su correo de Span</p>
                         <div class="max-w-2xl mx-auto overflow-hidden flex justify-center items-center mt-4 ">
                             <div role="status">
@@ -119,52 +119,51 @@
                             </div>
                         </div>                  
                         `,
-                allowOutsideClick: false,
-                onBeforeOpen: () => {
-                    Swal.showLoading();
-                }
-            });
+        allowOutsideClick: false,
+        onBeforeOpen: () => {
+          Swal.showLoading();
+        }
+      });
 
-            $.ajax({
-                url: '{{ route('guardarContactosLanding') }}',
-                method: 'POST',
-                data: formDataArray,
-                success: function(response) {
-                    
-                    Swal.close();
+      $.ajax({
+        url: '{{ route('guardarContactosLanding') }}',
+        method: 'POST',
+        data: formDataArray,
+        success: function(response) {
 
-                    Swal.fire({
-                        title: response.message,
-                        icon: "success",
-                    }).then(function() {
-                        window.location.href = '{{ route('producto',114) }}';
-                    });
+          Swal.close();
+
+          Swal.fire({
+            title: response.message,
+            icon: "success",
+          }).then(function() {
+            window.location.href = '{{ route('producto', 114) }}';
+          });
 
 
-                    $('#formContactosLanding')[0].reset();
+          $('#formContactosLanding')[0].reset();
 
-                },
-                error: function(error) {
-                    Swal.close();
-                    const obj = error.responseJSON.message;
-                    const keys = Object.keys(error.responseJSON.message);
-                    let flag = false;
-                    keys.forEach(key => {
-                        if (!flag) {
-                            const e = obj[key][0];
-                            Swal.fire({
-                                title: error.message,
-                                text: e,
-                                icon: "error",
-                            });
-                            flag = true; // Marcar como mostrado
-                        }
-                    });
-                }
-            });
-        })
-
-    </script>
+        },
+        error: function(error) {
+          Swal.close();
+          const obj = error.responseJSON.message;
+          const keys = Object.keys(error.responseJSON.message);
+          let flag = false;
+          keys.forEach(key => {
+            if (!flag) {
+              const e = obj[key][0];
+              Swal.fire({
+                title: error.message,
+                text: e,
+                icon: "error",
+              });
+              flag = true; // Marcar como mostrado
+            }
+          });
+        }
+      });
+    })
+  </script>
 </body>
 
 </html>

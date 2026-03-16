@@ -18,140 +18,139 @@ use Illuminate\Support\Str;
 
 class LibroReclamacionesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        $mensajes = LibroReclamaciones::where('status' , '=', 1 )->orderBy('created_at', 'DESC')->get();
-        
-        return view('pages.claim.index', compact('mensajes'));
+  /**
+   * Display a listing of the resource.
+   */
+  public function index()
+  {
+    $mensajes = LibroReclamaciones::where('status', '=', 1)->orderBy('created_at', 'DESC')->get();
+
+    return view('pages.claim.index', compact('mensajes'));
+  }
+
+  /**
+   * Show the form for creating a new resource.
+   */
+  public function create()
+  {
+    //
+  }
+
+  /**
+   * Store a newly created resource in storage.
+   */
+  public function store(Request $request)
+  {
+    //
+  }
+
+
+  function storePublic(Request $request)
+  {
+
+    $validatedData = $request->validate([
+      'fullname' => 'required|string',
+      'type_document' => 'required|string',
+      'number_document' => 'required|string',
+      'cellphone' => 'required|numeric',
+      'email' => 'required|string',
+      'department' => 'required|string',
+      'province' => 'required|string',
+      'district' => 'required|string',
+      'address' => 'required|string',
+      'typeitem' => 'required|string',
+      'amounttotal' => 'required|numeric',
+      // 'category_product_service'=> 'required|string',
+      'description' => 'required|string',
+      'type_claim' => 'required|string',
+      'date_incident' => 'required|string',
+      'address_incident' => 'required|string',
+      'detail_incident' => 'required|string',
+      'g-recaptcha-response' => 'required|captcha',
+
+    ]);
+
+
+    LibroReclamaciones::create($validatedData);
+    $this->envioCorreoLibrodeReclamacion($validatedData);
+    return response()->json(['message' => 'Mensaje enviado']);
+  }
+
+
+
+  public function saveImg($file, $route, $nombreImagen)
+  {
+    $manager = new ImageManager(new Driver());
+    $img =  $manager->read($file);
+
+    if (!file_exists($route)) {
+      mkdir($route, 0777, true); // Se crea la ruta con permisos de lectura, escritura y ejecución
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+    $img->save($route . $nombreImagen);
+  }
 
 
-    function storePublic(Request $request)
-    {
-        
-        $validatedData = $request->validate([
-            'fullname' => 'required|string',
-            'type_document' => 'required|string',
-            'number_document'=> 'required|string',
-            'cellphone'=> 'required|numeric',
-            'email'=> 'required|string',
-            'department'=> 'required|string',
-            'province'=> 'required|string',
-            'district'=> 'required|string',
-            'address'=> 'required|string',
-            'typeitem'=> 'required|string',
-            'amounttotal' => 'required|numeric',
-            // 'category_product_service'=> 'required|string',
-            'description'=> 'required|string',
-            'type_claim'=> 'required|string',
-            'date_incident'=> 'required|string',
-            'address_incident'=> 'required|string',
-            'detail_incident'=> 'required|string',
-            'g-recaptcha-response' => 'required|captcha',
-            
-        ]);
-        
+  /**
+   * Display the specified resource.
+   */
+  public function show($id)
+  {
+    $message = LibroReclamaciones::findOrFail($id);
 
-        LibroReclamaciones::create($validatedData);
-        $this-> envioCorreoLibrodeReclamacion($validatedData);
-        return response()->json(['message' => 'Mensaje enviado']);
-        
-    }
+    $departamento =  DB::select('select * from departments where id = ?', [$message->department]);
+    $provinces = DB::select('select * from provinces where  id = ? ', [$message->province]);
+    $distritos = DB::select('select * from districts where  id = ? ', [$message->district]);
 
-    
+    $message->is_read = 1;
+    $message->save();
 
-    public function saveImg($file, $route, $nombreImagen)
-    {
-        $manager = new ImageManager(new Driver());
-        $img =  $manager->read($file);
+    return view('pages.claim.show', compact('message', 'departamento', 'provinces', 'distritos'));
+  }
 
-        if (!file_exists($route)) {
-        mkdir($route, 0777, true); // Se crea la ruta con permisos de lectura, escritura y ejecución
-        }
-        $img->save($route . $nombreImagen);
-    }
+  /**
+   * Show the form for editing the specified resource.
+   */
+  public function edit(LibroReclamaciones $libroReclamaciones)
+  {
+    //
+  }
 
+  /**
+   * Update the specified resource in storage.
+   */
+  public function update(Request $request, LibroReclamaciones $libroReclamaciones)
+  {
+    //
+  }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show($id)
-    {
-        $message = LibroReclamaciones::findOrFail($id);
+  /**
+   * Remove the specified resource from storage.
+   */
+  public function destroy(LibroReclamaciones $libroReclamaciones)
+  {
+    //
+  }
 
-        $departamento =  DB::select('select * from departments where id = ?', [$message->department]);
-        $provinces = DB::select('select * from provinces where  id = ? ', [$message->province]);
-        $distritos = DB::select('select * from districts where  id = ? ', [$message->district]);
+  public function borrar(Request $request)
+  {
 
-        $message->is_read = 1; 
-        $message->save();
+    $mensaje = LibroReclamaciones::find($request->id);
+    $mensaje->status = 0;
+    $mensaje->save();
 
-        return view('pages.claim.show', compact('message' , 'departamento', 'provinces', 'distritos'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(LibroReclamaciones $libroReclamaciones)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, LibroReclamaciones $libroReclamaciones)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(LibroReclamaciones $libroReclamaciones)
-    {
-        //
-    }
-
-    public function borrar(Request $request)
-    {
-
-        $mensaje = LibroReclamaciones::find($request->id);
-        $mensaje->status = 0; 
-        $mensaje->save();
-
-        return response()->json(['success' => true]);
-
-    }
+    return response()->json(['success' => true]);
+  }
 
 
-    private function envioCorreoLibrodeReclamacion($data){
-        
-        $name = $data['fullname'];
-        $mensaje = "Tu reclamo ha sido recepcionado";
-        $mail = EmailConfig::config($name, $mensaje);
-        try {
-            $mail->addAddress($data['email']);
-            $mail->Body = '<html lang="es">
+  private function envioCorreoLibrodeReclamacion($data)
+  {
+
+    $name = $data['fullname'];
+    $mensaje = "Tu reclamo ha sido recepcionado";
+    $mail = EmailConfig::config($name, $mensaje);
+    try {
+      $mail->addAddress($data['email']);
+      $mail->Body = '<html lang="es">
             <head>
               <meta charset="UTF-8" />
               <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -299,12 +298,11 @@ class LibroReclamacionesController extends Controller
             </body>
           </html>
           ';
-            $mail->isHTML(true);
-            $mail->send();
-            
-        } catch (\Throwable $th) {
-            // throw $th;
-dump($th);
-        }  
-      }
+      $mail->isHTML(true);
+      $mail->send();
+    } catch (\Throwable $th) {
+      // throw $th;
+
+    }
+  }
 }

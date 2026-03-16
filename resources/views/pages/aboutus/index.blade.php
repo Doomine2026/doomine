@@ -105,7 +105,7 @@
 
     $('#tabladatos').on('change', '.btn_swithc', function() {
 
-      console.log('swithc')
+
 
       let status = 0;
       let id = $(this).attr('data-idService');
@@ -118,7 +118,7 @@
         status = 0;
       }
 
-      console.log(status)
+
 
       $.ajax({
         url: "{{ route('aboutus.updateVisible') }}",

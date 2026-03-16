@@ -14,6 +14,19 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
   <script src="https://sandbox-checkout.izipay.pe/payments/v1/js/index.js"></script>
 
+  <script>
+    const googleKey = "purchase_google";
+    const fbKey = "purchase_fb";
+    const tiktokKey = "purchase_tiktok";
+
+    /* borrar claves previas si existen */
+    [googleKey, fbKey, tiktokKey].forEach(key => {
+      if (localStorage.getItem(key) !== null) {
+        localStorage.removeItem(key);
+      }
+    });
+  </script>
+
 @stop
 <style type="text/css">
   /* to choice the embedded size */
