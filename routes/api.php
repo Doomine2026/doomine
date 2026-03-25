@@ -20,6 +20,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('getTest', [PaymentWebhookController::class, 'testIzipayWebhook']);
+
 Route::post('/v1/payments/webhook/izipay', [PaymentWebhookController::class, 'handleIzipayNotification']);
 
 Route::post('/products/paginate', [ProductsController::class, 'paginate'])->name('products.paginate');

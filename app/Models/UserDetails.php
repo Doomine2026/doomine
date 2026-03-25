@@ -8,29 +8,31 @@ use Illuminate\Database\Eloquent\Model;
 class UserDetails extends Model
 {
     use HasFactory;
-    protected $fillable=[
+    protected $fillable = [
         'email',
-    'nombre',
-    'apellidos',
-    'phone',
-    'departamento_id',
-    'provincia_id',
-    'distrito_id',
-    'dir_av_calle',
-    'dir_numero',
-    'dir_bloq_lote',
-    'imagen',
-    'user_id',
-    'status'
-];
+        'nombre',
+        'apellidos',
+        'phone',
+        'departamento_id',
+        'provincia_id',
+        'distrito_id',
+        'dir_av_calle',
+        'dir_numero',
+        'dir_bloq_lote',
+        'imagen',
+        'user_id',
+        'status',
+        '_token',
+        'tipo_tarjeta'
+    ];
 
-public function user()
-{
-    return $this->belongsTo(User::class);
-}
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
-public function usuarioPedido(){
-    return $this->hasMany(Ordenes::class, 'usuario_id');
-  } 
-
+    public function usuarioPedido()
+    {
+        return $this->hasMany(Ordenes::class, 'usuario_id');
+    }
 }

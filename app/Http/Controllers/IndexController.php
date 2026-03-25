@@ -43,6 +43,7 @@ use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\View;
 
 use function PHPUnit\Framework\isNull;
 
@@ -344,19 +345,40 @@ class IndexController extends Controller
 
       $orden->update(['tipo_tarjeta' => $tipoTarjeta]);
 
-      $ordenid = $orden->get();
-      AddressUser::where('id', $ordenid[0]['address_id'])->update([
-        'dir_av_calle' => $result['dir_av_calle'],
-        'dir_numero' => $result['dir_numero'],
-        'dir_bloq_lote' => $result['dir_bloq_lote']
+      $ordenid = $orden->first();
+
+      $addres_user_id = AddressUser::where('user_id', $ordenid->usuario_id)
+        ->latest() // Ordena por created_at descendente
+        ->first(); // Obtenemos el objeto primero
+
+      if ($addres_user_id) {
+        $addres_user_id->update([
+          'dir_av_calle' => $result['dir_av_calle'],
+          'dir_numero' => $result['dir_numero'],
+          'dir_bloq_lote' => $result['dir_bloq_lote']
+        ]);
+      }
+
+
+
+      $useract = UserDetails::where('email', '=', $result['email'])->update([
+        '_token' => $result['_token'],
+        'email' => $result['email'],
+        'nombre' => $result['nombre'],
+        'apellidos' => $result['apellidos'],
+        'phone' => $result['phone'],
+        'addres_user_id' => $addres_user_id->id,
       ]);
 
 
-      UserDetails::where('email', '=', $request->email)->update($result);
+
+
+
 
       return response()->json(['message' => 'Todos los datos estan correctos', 'codigoCompra' => $codigoAleatorio]);
     } catch (\Throwable $th) {
       //throw $th;
+
       return response()->json(['message' => $th], 400);
     }
   }
@@ -841,17 +863,28 @@ class IndexController extends Controller
     }
   }
 
-  private function envioCorreoCompra($data)
+  public function envioCorreoCompra($usuario, $orden)
   {
-    $name = $data['nombre'];
+
     $mail = EmailConfig::config();
+    $nombre = "$usuario->nombre $usuario->apellidos";
+
+    $data =  [
+      'nombre' => $nombre,
+
+      'domain' => env('APP_DOMAIN'),
+
+    ];
+    $content = View::make('mailing.pagoTc', $data)->render();
     try {
-      $mail->addAddress($data['email']);
-      $mail->Body = "Hola $name su pedido fue realizado.";
+      $mail->addAddress($usuario['email']);
+      $mail->addBCC('doomineoficial@gmail.com');
+      $mail->Body = $content;
       $mail->isHTML(true);
       $mail->send();
     } catch (\Throwable $th) {
       //throw $th;
+
     }
   }
 
@@ -896,6 +929,7 @@ class IndexController extends Controller
       return response()->json(['mensaje' => 'Orden generada correctamente', 'formToken' => $formToken, 'codigoOrden' => $codigoOrden, 'primeraVez' => $primeraVez]);
     } catch (\Throwable $th) {
       //throw $th;
+
       return response()->json(['mensaje' => "Intente de nuevo mas tarde , estamos trabajando en una solucion , $th"], 400);
     }
   }
