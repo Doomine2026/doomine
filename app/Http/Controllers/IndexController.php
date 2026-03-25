@@ -43,6 +43,7 @@ use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\View;
 
 use function PHPUnit\Framework\isNull;
 
@@ -862,17 +863,28 @@ class IndexController extends Controller
     }
   }
 
-  private function envioCorreoCompra($data)
+  public function envioCorreoCompra($usuario, $orden)
   {
-    $name = $data['nombre'];
+
     $mail = EmailConfig::config();
+    $nombre = "$usuario->nombre $usuario->apellidos";
+
+    $data =  [
+      'nombre' => $nombre,
+
+      'domain' => env('APP_DOMAIN'),
+
+    ];
+    $content = View::make('mailing.pagoTc', $data)->render();
     try {
-      $mail->addAddress($data['email']);
-      $mail->Body = "Hola $name su pedido fue realizado.";
+      $mail->addAddress($usuario['email']);
+      $mail->addBCC('doomineoficial@gmail.com');
+      $mail->Body = $content;
       $mail->isHTML(true);
       $mail->send();
     } catch (\Throwable $th) {
       //throw $th;
+
     }
   }
 

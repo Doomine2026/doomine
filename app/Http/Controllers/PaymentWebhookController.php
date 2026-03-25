@@ -40,6 +40,8 @@ class PaymentWebhookController extends Controller
 
   public function handleIzipayNotification(Request $request)
   {
+
+
     // 1. Obtener la data cruda
     $data = $request->all();
 
@@ -68,6 +70,7 @@ class PaymentWebhookController extends Controller
 
 
         if ($order) {
+
           // Evitamos procesar dos veces si ya está pagada
           if ($order->status_id !== 3) {
             $order->update([
@@ -83,14 +86,14 @@ class PaymentWebhookController extends Controller
               'email' => $usuario->email
             ];
             $indexcotrnoller = new IndexController();
-            $indexcotrnoller->envioCorreoCompra($usuario, $usuario);
+            $indexcotrnoller->envioCorreoCompra($usuario, $order);
           }
         } else {
           Log::warning("Izipay: Pedido {$orderId} no encontrado en la base de datos.");
         }
       }
 
-      return response()->json(['status' => 'success'], 200);
+      return response()->json(['status' => 'successee'], 200);
     }
 
     return response()->json(['status' => 'invalid signature'], 400);
