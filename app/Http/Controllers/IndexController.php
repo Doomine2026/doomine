@@ -868,6 +868,7 @@ class IndexController extends Controller
 
     $mail = EmailConfig::config();
     $nombre = "$usuario->nombre $usuario->apellidos";
+    $nroOrden = $orden->codigo_orden;
 
     $data =  [
       'nombre' => $nombre,
@@ -877,6 +878,8 @@ class IndexController extends Controller
     ];
     $content = View::make('mailing.pagoTc', $data)->render();
     try {
+
+      $mail->Subject = "Orden #{$nroOrden} Doomine - ¡Pedido realizado con éxito!";
       $mail->addAddress($usuario['email']);
       $mail->addBCC('doomineoficial@gmail.com');
       $mail->Body = $content;
