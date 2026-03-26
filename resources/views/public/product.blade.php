@@ -339,6 +339,16 @@
   <script src="{{ asset('js/carrito.js') }}"></script>
 
   <script>
+    fbq('track', 'ViewContent', {
+      content_name: '{{ $productos[0]->producto }}',
+      content_ids: ['{{ $productos[0]->id }}'],
+      content_type: 'product',
+      value: {{ $productos[0]->precio }},
+      currency: 'PEN' // Soles para Perú
+    });
+  </script>
+
+  <script>
     $(document).ready(function() {
 
 
