@@ -863,15 +863,18 @@ class IndexController extends Controller
     }
   }
 
-  public function envioCorreoCompra($usuario, $orden)
+  public function envioCorreoCompra($usuario, $orders)
   {
 
     $mail = EmailConfig::config();
     $nombre = "$usuario->nombre $usuario->apellidos";
-    $nroOrden = $orden->codigo_orden;
+    $nroOrden = $orders->codigo_orden;
+
+
 
     $data =  [
       'nombre' => $nombre,
+      'orders' => $orders,
 
       'domain' => env('APP_DOMAIN'),
 

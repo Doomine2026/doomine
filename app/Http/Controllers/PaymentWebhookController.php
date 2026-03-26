@@ -66,7 +66,8 @@ class PaymentWebhookController extends Controller
       if ($status === 'PAID' && $orderId) {
         // 5. Lógica para marcar como pagado en tu DB
         // Asumiendo que tu modelo se llama Order
-        $order = Ordenes::where('codigo_orden', $orderId)->first();
+        $order = Ordenes::where('codigo_orden', $orderId)->with('DetalleOrden')->first();
+        // $orders = Ordenes::where('id',  $id)->with('usuarioPedido')->with('statusOrdenes')->with('DetalleOrden')->first();
 
 
         if ($order) {

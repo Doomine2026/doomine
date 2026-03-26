@@ -103,8 +103,65 @@
             ha sido procesada. Estamos preparando tu envío para
             que llegue a tu destino lo antes posible.
           </p>
-          <div class="button-container">
-            <a href="{{ $domain }}/micuenta/pedidos" class="button">Ver mi Pedido</a>
+          <div id="productos-lista">
+            <table style="width: 100%; border-collapse: collapse; font">
+              <thead>
+                <tr>
+                  <th style="padding: 8px"></th>
+                  <th style="padding: 8px"></th>
+                  <th style="padding: 8px"></th>
+                  <th style="padding: 8px"></th>
+                </tr>
+              </thead>
+              <tbody style="font-size: 14px">
+                @foreach ($orders->DetalleOrden as $item)
+                  <tr>
+                    <td style="padding: 8px; text-align: center">
+
+                    </td>
+                    <td style="padding: 8px">
+                      {{ $item->producto->producto ?? '' }}
+                    </td>
+                    <td style="padding: 8px">
+                      {{ $item->precio }} x {{ $item->cantidad }}
+                    </td>
+                    <td style="padding: 8px">
+                      {{ $item->precio * $item->cantidad }}
+                    </td>
+                  </tr>
+                @endforeach
+                <tr>
+                  <td style="padding: 8px"></td>
+                  <td style="padding: 8px"></td>
+                  <td style="padding: 8px; text-align: left">
+                    Subtotal:
+                  </td>
+                  <td style="padding: 8px">
+                    {{ $orders->monto }}
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px"></td>
+                  <td style="padding: 8px"></td>
+                  <td style="padding: 8px; text-align: left">
+                    Envío:
+                  </td>
+                  <td style="padding: 8px">
+                    {{ $orders->precio_envio }}
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px"></td>
+                  <td style="padding: 8px"></td>
+                  <td style="padding: 8px; text-align: left">
+                    Total:
+                  </td>
+                  <td style="padding: 8px">
+                    {{ $orders->monto + $orders->precio_envio }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </td>
       </tr>
