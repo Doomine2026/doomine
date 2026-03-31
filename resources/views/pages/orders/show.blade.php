@@ -79,7 +79,8 @@
                                 <tr>
                                   <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
                                     <div class="flex flex-row items-start gap-4 mt-2">
-                                      <img class="w-10" src="{{ asset($item->imagenProducto->name_imagen) }}" />
+                                      <img class="w-10"
+                                        src="{{ asset($item->imagenProducto->name_imagen ?? '') }}" />
 
                                     </div>
                                   </td>
