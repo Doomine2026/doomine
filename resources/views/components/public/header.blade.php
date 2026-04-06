@@ -319,7 +319,7 @@
                   </a>
               `;
               });
-
+              // $('#resultados2').empty();
               $('#resultados').html(resultsHtml);
             }
           });
@@ -333,6 +333,7 @@
       $('#buscarProducto2').keyup(function() {
 
         let query = $(this).val().trim();
+
 
         if (query !== '') {
           $.ajax({
@@ -366,6 +367,7 @@
             `;
               });
 
+              $('#resultados2').empty();
               $('#resultados2').append(resultsHtml);
             }
           });
