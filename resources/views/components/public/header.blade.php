@@ -358,8 +358,8 @@
                             <p class="text-text12 text-left">Categoría</p>
                         </div>
                         <div class="flex flex-col justify-center w-[10%]">
-                            <p class="text-right">S/${result.precio}</p>
-                            <p class="text-text12 text-right line-through text-slate-500">S/${result.descuento}</p>
+                            <p class="text-right">S/${result.descuento}</p>
+                            <p class="text-text12 text-right line-through text-slate-500">S/${result.precio}</p>
                         </div>
                     </div>
                 </a>
