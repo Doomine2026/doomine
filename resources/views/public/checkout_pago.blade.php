@@ -183,29 +183,42 @@
                       {{-- llenar los datos si la persona existe --}}
                       <div class="flex flex-col md:flex-row gap-5">
 
-                        <div class="basis-1/2 flex flex-col gap-2">
+                        <div class="basis-1/3 flex flex-col gap-2">
                           <label for="nombre" class="font-medium text-[12px] text-[#6C7275]">Nombre</label>
                           @if (isset($detalleUsuario) && count($detalleUsuario) > 0)
                             <input id="nombre" type="text" placeholder="Nombre" name="nombre"
-                              class="w-full py-3 px-4 focus:outline-none placeholder-gray-400 font-normal text-[16px] border-[1.5px] border-gray-200 rounded-xl text-[#6C7275]"
+                              class="checkInput w-full py-3 px-4 focus:outline-none placeholder-gray-400 font-normal text-[16px] border-[1.5px] border-gray-200 rounded-xl text-[#6C7275]"
                               value="{{ $detalleUsuario[0]->nombre }}" />
                           @else
                             <input id="nombre" type="text" placeholder="Nombre" name="nombre"
-                              class="w-full py-3 px-4 focus:outline-none placeholder-gray-400 font-normal text-[16px] border-[1.5px] border-gray-200 rounded-xl text-[#6C7275]" />
+                              class="checkInput w-full py-3 px-4 focus:outline-none placeholder-gray-400 font-normal text-[16px] border-[1.5px] border-gray-200 rounded-xl text-[#6C7275]" />
                           @endif
 
                         </div>
 
 
-                        <div class="basis-1/2 flex flex-col gap-2">
+                        <div class="basis-1/3 flex flex-col gap-2">
                           <label for="apellidos" class="font-medium text-[12px] text-[#6C7275]">Apellido</label>
 
                           @if (isset($detalleUsuario) && count($detalleUsuario) > 0)
                             <input id="apellidos" type="text" placeholder="Apellido" name="apellidos"
-                              class="w-full py-3 px-4 focus:outline-none placeholder-gray-400 font-normal text-[16px] border-[1.5px] border-gray-200 rounded-xl text-[#6C7275]"
+                              class="checkInput w-full py-3 px-4 focus:outline-none placeholder-gray-400 font-normal text-[16px] border-[1.5px] border-gray-200 rounded-xl text-[#6C7275]"
                               value="{{ $detalleUsuario[0]->apellidos }}" />
                           @else
                             <input id="apellido" type="text" placeholder="Apellido" name="apellidos"
+                              class="checkInput w-full py-3 px-4 focus:outline-none placeholder-gray-400 font-normal text-[16px] border-[1.5px] border-gray-200 rounded-xl text-[#6C7275]" />
+                          @endif
+
+                        </div>
+                        <div class="basis-1/3 flex flex-col gap-2">
+                          <label for="dni" class="font-medium text-[12px] text-[#6C7275]">DNI</label>
+
+                          @if (isset($detalleUsuario) && count($detalleUsuario) > 0)
+                            <input id="dni" type="text" placeholder="DNI" name="dni"
+                              class="w-full py-3 px-4 focus:outline-none placeholder-gray-400 font-normal text-[16px] border-[1.5px] border-gray-200 rounded-xl text-[#6C7275]"
+                              value="{{ $detalleUsuario[0]->dni }}" />
+                          @else
+                            <input id="apellido" type="text" placeholder="Apellido" name="dni"
                               class="w-full py-3 px-4 focus:outline-none placeholder-gray-400 font-normal text-[16px] border-[1.5px] border-gray-200 rounded-xl text-[#6C7275]" />
                           @endif
 
@@ -413,6 +426,45 @@
       })
 
     })
+
+    document.querySelectorAll('.checkInput').forEach(input => {
+      input.addEventListener('input', function() {
+        // Reemplaza cualquier cosa que NO sea letra (a-z), espacio, tildes o ñ
+        // La "i" al final hace que no distinga entre mayúsculas y minúsculas
+        this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ ]/g, '');
+      });
+    });
+    document.querySelectorAll('#dni').forEach(input => {
+      // 1. Bloqueo de teclas no permitidas
+      input.addEventListener('keypress', function(e) {
+        // Permitir solo números y el signo +
+        if (!/[0-9]/.test(e.key)) {
+          e.preventDefault();
+        }
+      });
+
+      // 2. Limpieza al pegar o escribir (Cubre errores y Ctrl+V)
+      input.addEventListener('input', function() {
+        // Elimina cualquier caracter que NO sea un número o un símbolo +
+        this.value = this.value.replace(/[^0-9]/g, '');
+      });
+    });
+
+    document.querySelectorAll('#celular').forEach(input => {
+      // 1. Bloqueo de teclas no permitidas
+      input.addEventListener('keypress', function(e) {
+        // Permitir solo números y el signo +
+        if (!/[0-9+]/.test(e.key)) {
+          e.preventDefault();
+        }
+      });
+
+      // 2. Limpieza al pegar o escribir (Cubre errores y Ctrl+V)
+      input.addEventListener('input', function() {
+        // Elimina cualquier caracter que NO sea un número o un símbolo +
+        this.value = this.value.replace(/[^0-9+]/g, '');
+      });
+    });
   </script>
 
   <script>
@@ -440,6 +492,10 @@
                 break
               case 'apellidos':
                 mensaje += ' Apellido,';
+                hasEmptyFields = true;
+                break
+              case 'dni':
+                mensaje += ' DNI,';
                 hasEmptyFields = true;
                 break
               case 'email':

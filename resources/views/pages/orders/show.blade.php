@@ -54,6 +54,13 @@
                     </div>
                     <div class="ml-1 text-slate-800 dark:text-slate-100 text-sm">
                       {{ $orders->usuarioPedido->email ?? '' }}</div>
+                    <div class="ml-1 text-slate-800 dark:text-slate-100 text-sm">
+                      {{ $orders->usuarioPedido->nombre ?? '' }} {{ $orders->usuarioPedido->apellidos ?? '' }}</div>
+
+                    <div class="ml-1 text-slate-800 dark:text-slate-100 text-sm">
+                      {{ $orders->usuarioPedido->dni ?? '' }}</div>
+                    <div class="ml-1 text-slate-800 dark:text-slate-100 text-sm">
+                      {{ $orders->usuarioPedido->phone ?? '' }}</div>
                   </div>
 
                   <div class="flex flex-col py-4">

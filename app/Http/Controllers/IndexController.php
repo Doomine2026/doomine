@@ -364,6 +364,7 @@ class IndexController extends Controller
       $useract = UserDetails::where('email', '=', $result['email'])->update([
         '_token' => $result['_token'],
         'email' => $result['email'],
+        'dni' => $result['dni'],
         'nombre' => $result['nombre'],
         'apellidos' => $result['apellidos'],
         'phone' => $result['phone'],

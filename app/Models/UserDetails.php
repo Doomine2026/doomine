@@ -10,6 +10,7 @@ class UserDetails extends Model
     use HasFactory;
     protected $fillable = [
         'email',
+        'dni',
         'nombre',
         'apellidos',
         'phone',
