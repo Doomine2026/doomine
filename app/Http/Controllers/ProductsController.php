@@ -94,7 +94,23 @@ class ProductsController extends Controller
       if ($request->hasFile("imagen")) {
         $file = $request->file('imagen');
         $routeImg = 'storage/images/productos/';
-        $nombreImagen = Str::random(10) . '_' . $file->getClientOriginalName();
+
+
+
+        // 1. Obtenemos el nombre original sin la extensión
+        $nameOnly = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+
+        // 2. Obtenemos la extensión original
+        $extension = $file->getClientOriginalExtension();
+
+        // 3. Limpiamos el nombre (quita espacios, tildes, eñes y pone guiones)
+        $nombreLimpio = Str::slug($nameOnly);
+
+        // 4. Armamos el nombre final
+        $nombreImagen = Str::random(10) . '_' . $nombreLimpio . '.' . $extension;
+
+
+        // $nombreImagen = Str::random(10) . '_' . $file->getClientOriginalName();
 
         $this->saveImg($file, $routeImg, $nombreImagen);
 
@@ -204,7 +220,23 @@ class ProductsController extends Controller
           }
           $file = $request->file($key);
           $routeImg = 'storage/images/productos/';
-          $nombreImagen = Str::random(10) . '_' . $file->getClientOriginalName();
+
+
+
+          // 1. Obtenemos el nombre original sin la extensión
+          $nameOnly = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+
+          // 2. Obtenemos la extensión original
+          $extension = $file->getClientOriginalExtension();
+
+          // 3. Limpiamos el nombre (quita espacios, tildes, eñes y pone guiones)
+          $nombreLimpio = Str::slug($nameOnly);
+
+          // 4. Armamos el nombre final
+          $nombreImagen = Str::random(10) . '_' . $nombreLimpio . '.' . $extension;
+
+
+          // $nombreImagen = Str::random(10) . '_' . $file->getClientOriginalName();
 
           $this->saveImg($file, $routeImg, $nombreImagen);
 
@@ -398,7 +430,22 @@ class ProductsController extends Controller
           }
           $file = $request->file($key);
           $routeImg = 'storage/images/productos/';
-          $nombreImagen = Str::random(10) . '_' . $file->getClientOriginalName();
+
+
+          // 1. Obtenemos el nombre original sin la extensión
+          $nameOnly = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+
+          // 2. Obtenemos la extensión original
+          $extension = $file->getClientOriginalExtension();
+
+          // 3. Limpiamos el nombre (quita espacios, tildes, eñes y pone guiones)
+          $nombreLimpio = Str::slug($nameOnly);
+
+          // 4. Armamos el nombre final
+          $nombreImagen = Str::random(10) . '_' . $nombreLimpio . '.' . $extension;
+
+
+          // $nombreImagen = Str::random(10) . '_' . $file->getClientOriginalName();
 
           $this->saveImg($file, $routeImg, $nombreImagen);
 
