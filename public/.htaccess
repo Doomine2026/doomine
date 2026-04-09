@@ -1,21 +1,20 @@
 <IfModule mod_rewrite.c>
-    <IfModule mod_negotiation.c>
-        Options -MultiViews -Indexes
-    </IfModule>
-
     RewriteEngine On
 
-    # Handle Authorization Header
-    RewriteCond %{HTTP:Authorization} .
-    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+    # 1. Redirigir de WWW a NO-WWW (Evita el error de CORS de raíz)
+    RewriteCond %{HTTP_HOST} ^www\.doomine\.com [NC]
+    RewriteRule ^(.*)$ https://doomine.com/$1 [L,R=301]
 
-    # Redirect Trailing Slashes If Not A Folder...
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_URI} (.+)/$
-    RewriteRule ^ %1 [L,R=301]
+    # 2. Forzar HTTPS
+    RewriteCond %{HTTPS} off
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URL} [L,R=301]
 
-    # Send Requests To Front Controller...
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^ index.php [L]
+    # 3. Redirigir todas las peticiones a la carpeta /public
+    RewriteCond %{REQUEST_URI} !/public
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+
+# 4. Configuración de Headers para mayor seguridad
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "https://doomine.com"
 </IfModule>
