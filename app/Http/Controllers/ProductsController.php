@@ -552,7 +552,23 @@ class ProductsController extends Controller
       $rutaCompleta  = $imagenGaleria->name_imagen;
 
       $routeImg = 'storage/images/productos/';
-      $nombreImagen = Str::random(10) . '_' . $file->getClientOriginalName();
+
+
+
+      // 1. Obtenemos el nombre original sin la extensión
+      $nameOnly = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+
+      // 2. Obtenemos la extensión original
+      $extension = $file->getClientOriginalExtension();
+
+      // 3. Limpiamos el nombre (quita espacios, tildes, eñes y pone guiones)
+      $nombreLimpio = Str::slug($nameOnly);
+
+      // 4. Armamos el nombre final
+      $nombreImagen = Str::random(10) . '_' . $nombreLimpio . '.' . $extension;
+
+
+
       if (file_exists($rutaCompleta)) {
         // Intentar eliminar el archivo
         if (unlink($rutaCompleta)) {
