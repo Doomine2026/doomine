@@ -870,12 +870,13 @@ class IndexController extends Controller
     $mail = EmailConfig::config();
     $nombre = "$usuario->nombre $usuario->apellidos";
     $nroOrden = $orders->codigo_orden;
-
+    $direccion = AddressUser::where('id', '=', $orders->address_id)->first();
 
 
     $data =  [
       'nombre' => $nombre,
       'orders' => $orders,
+      'direccion' => $direccion,
 
       'domain' => env('APP_DOMAIN'),
 

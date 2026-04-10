@@ -24,7 +24,7 @@ class PedidosController extends Controller
 
     public function verPedido($id)
     {
-        $orders = Ordenes::where('id',  $id)->with('usuarioPedido')->with('statusOrdenes')->with('DetalleOrden')->first();
+        $orders = Ordenes::where('id',  $id)->with('usuarioPedido')->with('statusOrdenes')->with('DetalleOrden', 'DetalleOrden.talla', 'DetalleOrden.color')->first();
 
         $direccion = AddressUser::where('id', '=', $orders->address_id)->first();
         $departamentos = DB::table('departments')->where('id', '=', $direccion->departamento_id)->get();

@@ -92,7 +92,18 @@
                                     </div>
                                   </td>
                                   <td>
-                                    <h2 class="">{{ $item->producto->producto ?? '' }}</h2>
+                                    <p class="">{{ $item->producto->producto ?? '' }}</p>
+                                    <p style="margin: 4px 0 0 0; font-size: 12px; color: #6b7280;">
+                                      @if ($item->color)
+                                        <span style="background: #f3f4f6; padding: 2px 6px; border-radius: 4px;">Color:
+                                          {{ $item->color->valor }}</span>
+                                      @endif
+                                      @if ($item->talla)
+                                        <span
+                                          style="background: #f3f4f6; padding: 2px 6px; border-radius: 4px; margin-left: 4px;">Talla:
+                                          {{ $item->talla->valor }}</span>
+                                      @endif
+                                    </p>
                                   </td>
                                   <td class="px-6 py-4 text-sm font-medium text-gray-800">
                                     {{ $item->precio ?? '' }}</td>
