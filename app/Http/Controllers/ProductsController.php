@@ -56,7 +56,7 @@ class ProductsController extends Controller
   {
     $manager = new ImageManager(new Driver());
     $img =  $manager->read($file);
-    $img->coverDown(1000, 1500, 'center');
+    // $img->coverDown(1000, 1500, 'center');
 
     if (!file_exists($route)) {
       mkdir($route, 0777, true);
@@ -532,7 +532,7 @@ class ProductsController extends Controller
       $this->TagsXProducts($id, $tagsSeleccionados);
     }
     $this->actualizarEspecificacion($especificaciones);
-    return redirect()->route('products.index')->with('success', 'Producto editado exitosamente.');
+    // return redirect()->route('products.index')->with('success', 'Producto editado exitosamente.');
   }
 
   private function actdeCombinaciones($id, $request)
@@ -594,6 +594,8 @@ class ProductsController extends Controller
   private function actImg($file, $id)
   {
 
+
+
     try {
       $imagenGaleria = ImagenProducto::find($id);
       $rutaCompleta  = $imagenGaleria->name_imagen;
@@ -622,6 +624,8 @@ class ProductsController extends Controller
           // Archivo eliminado con éxito
           $imagenGaleria->update(['name_imagen' => $routeImg . $nombreImagen]);
         }
+      } else {
+        $imagenGaleria->update(['name_imagen' => $routeImg . $nombreImagen]);
       }
       $this->saveImg($file, $routeImg, $nombreImagen);
     } catch (\Throwable $th) {
