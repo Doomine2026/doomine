@@ -713,6 +713,7 @@ class IndexController extends Controller
     $query = $request->input('query');
     $resultados = Products::where('producto', 'like', "%$query%")
       ->where("status", "=", true)
+      ->where("visible", "=", true)
       ->with([
         'images' => function ($query) {
           $query->where('caratula', 1);
