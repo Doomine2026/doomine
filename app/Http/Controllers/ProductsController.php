@@ -532,7 +532,7 @@ class ProductsController extends Controller
       $this->TagsXProducts($id, $tagsSeleccionados);
     }
     $this->actualizarEspecificacion($especificaciones);
-    // return redirect()->route('products.index')->with('success', 'Producto editado exitosamente.');
+    return redirect()->route('products.index')->with('success', 'Producto editado exitosamente.');
   }
 
   private function actdeCombinaciones($id, $request)
