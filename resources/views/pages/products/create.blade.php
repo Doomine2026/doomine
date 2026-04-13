@@ -1015,6 +1015,24 @@
 
     }
 
+    function agregarInputSku(elemento, valorInput, name) {
+      elemento.setAttribute("type", "text");
+      elemento.setAttribute("name", `conbinacion-${valorInput}[sku]`);
+      elemento.setAttribute("placeholder", `${capitalizeFirstLetter(name)}`);
+      elemento.setAttribute("id", `${name}-${valorInput}`);
+
+
+      elemento.classList.add("mt-1", "bg-gray-50", "border", "border-gray-300", "text-gray-900", "text-sm",
+        "rounded-lg",
+        "focus:ring-blue-500", "focus:border-blue-500", "block", "w-full", "p-2.5",
+        "dark:bg-gray-700",
+        "dark:border-gray-600", "dark:placeholder-gray-400", "dark:text-white",
+        "dark:focus:ring-blue-500",
+        "dark:focus:border-blue-500");
+
+      return elemento
+    }
+
     function agregarElementos(elemento, valorInput, name) {
       elemento.setAttribute("type", "text");
       elemento.setAttribute("name", `${name}-${valorInput}`);
@@ -1129,6 +1147,7 @@
         const dRelative = document.createElement("div");
         const dRelative2 = document.createElement("div");
         const dRelative3 = document.createElement("div");
+        const dRelative4 = document.createElement("div");
 
         divFlex.id = `combination-${valorInput}`;
 
@@ -1136,6 +1155,7 @@
         dRelative.classList.add('mb-2', 'mt-2')
         dRelative2.classList.add('mb-2', 'mt-2')
         dRelative3.classList.add('mb-2', 'mt-2')
+        dRelative4.classList.add('mb-2', 'mt-2')
 
         const iconContainer = document.createElement("div");
         const icon = `<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -1173,29 +1193,26 @@
         const inputTittle = document.createElement("select");
         const inputValue = document.createElement("select");
         const inputStock = document.createElement("input")
+        const inputSku = document.createElement("input")
 
         let inputT = agregarCombinacion(inputTittle, valorInput, 'color')
         let inputV = agregarCombinacion(inputValue, valorInput, 'talla')
         let inputS = agregarinputStock(inputStock, valorInput, 'stock')
 
+        let inputSkuchild = agregarInputSku(inputSku, valorInput, 'sku')
+
+
 
         dRelative.appendChild(inputT);
         dRelative2.appendChild(inputV);
         dRelative3.appendChild(inputS);
-
-
-        // Agregar el icono como primer hijo de dRelative
-        // dRelative.insertBefore(iconNode, inputT);
-
-        // Clonar el nodo del icono para agregarlo como primer hijo de dRelative2
-        // const iconNodeCloned = iconNode.cloneNode(true);
-        // dRelative2.insertBefore(iconNodeCloned, inputV);
-        // dRelative3.insertBefore(iconNodeCloned, inputS);
+        dRelative4.appendChild(inputSkuchild);
 
 
         divFlex.appendChild(dRelative);
         divFlex.appendChild(dRelative2);
         divFlex.appendChild(dRelative3);
+        divFlex.appendChild(dRelative4);
         divFlex.appendChild(deleteButton);
 
         const parentContainer = addButton.parentElement
@@ -1311,7 +1328,7 @@
 
           let $element = $(this);
           let nameValue = $element.attr('name');
-          console.log(nameValue);
+
           initializeDropzone(this, nameValue);
         });
       }

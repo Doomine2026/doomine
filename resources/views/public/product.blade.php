@@ -190,9 +190,7 @@
             </div>
           </div>
 
-          <p class="italic font-mediumItalicDisplay text-text18">
-            SKU: {{ $productos[0]->sku }}
-          </p>
+
 
           <div>
             <div class="relative">

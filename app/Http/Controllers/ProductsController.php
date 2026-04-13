@@ -275,6 +275,7 @@ class ProductsController extends Controller
       'color_id' => $combinacion['color'],
       'talla_id' => $combinacion['talla'],
       'stock' => $combinacion['stock'],
+      'sku' => $combinacion['sku'],
     ]);
   }
   private function GuardarGaleria($file, $producto_id, $colorId)
@@ -554,6 +555,7 @@ class ProductsController extends Controller
               'color_id'   => $value["color"],
               'talla_id'   => $value["talla"],
               'stock'      => $value["stock"],
+              'sku'      => $value["sku"],
             ]
           );
           $idsEnviados[] = $combinacion->id;

@@ -12,7 +12,11 @@ class Combinacion extends Model
     protected $table = 'combinaciones';
 
     protected $fillable = [
-        'product_id', 'color_id', 'talla_id', 'stock'
+        'product_id',
+        'color_id',
+        'talla_id',
+        'stock',
+        'sku'
     ];
 
     // public function product()
