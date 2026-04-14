@@ -54,13 +54,39 @@ class IndexController extends Controller
    */
   public function index()
   {
-    // $productos = Products::all();
-    $productos = Products::where('status', '=', 1)->with('tags')->get();
+
+    $productos = Products::where('status', '=', 1)->with('tags')
+      ->orderByRaw("
+        CASE 
+            WHEN products.order IS NULL OR products.order = 0 THEN 1 
+            ELSE 0 
+        END ASC, 
+        products.order ASC, 
+        products.id ASC
+    ")
+      ->get();
     $categorias = Category::all();
-    $destacados = Products::where('destacar', '=', 1)->where('status', '=', 1)->where('visible', '=', 1)->with('tags')->with('images')->get();
-    // $descuentos = Products::where('descuento', '>', 0)->where('status', '=', 1)
-    // ->where('visible', '=', 1)->with('tags')->get();
-    $newarrival = Products::where('recomendar', '=', 1)->where('status', '=', 1)->where('visible', '=', 1)->with('tags')->with('images')->get();
+    $destacados = Products::where('destacar', '=', 1)->where('status', '=', 1)->where('visible', '=', 1)->with('tags')->with('images')
+      ->orderByRaw("
+        CASE 
+            WHEN products.order IS NULL OR products.order = 0 THEN 1 
+            ELSE 0 
+        END ASC, 
+        products.order ASC, 
+        products.id ASC
+    ")
+      ->get();
+
+    $newarrival = Products::where('recomendar', '=', 1)->where('status', '=', 1)->where('visible', '=', 1)->with('tags')->with('images')
+      ->orderByRaw("
+        CASE 
+            WHEN products.order IS NULL OR products.order = 0 THEN 1 
+            ELSE 0 
+        END ASC, 
+        products.order ASC, 
+        products.id ASC
+    ")
+      ->get();
 
     $general = General::all();
     $benefit = Strength::where('status', '=', 1)->get();
@@ -201,7 +227,7 @@ class IndexController extends Controller
         ->with('page', $page);
     } catch (\Throwable $th) {
       //throw $th;
-      dd($th);
+      // dd($th);
     }
   }
 
