@@ -899,6 +899,9 @@ class IndexController extends Controller
     $nombre = "$usuario->nombre $usuario->apellidos";
     $nroOrden = $orders->codigo_orden;
     $direccion = AddressUser::where('id', '=', $orders->address_id)->first();
+    $departamentos = DB::table('departments')->where('id', '=', $direccion->departamento_id)->first();
+    $provincias = DB::table('provinces')->where('id', '=', $direccion->provincia_id)->first();
+    $distritos = DB::table('districts')->where('id', '=', $direccion->distrito_id)->first();
 
 
     $data =  [
@@ -907,6 +910,9 @@ class IndexController extends Controller
       'direccion' => $direccion,
 
       'domain' => env('APP_DOMAIN'),
+      'departamentos' => $departamentos,
+      'provincias' => $provincias,
+      'distritos' => $distritos,
 
     ];
     $content = View::make('mailing.pagoTc', $data)->render();
