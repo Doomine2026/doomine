@@ -756,7 +756,15 @@ class ProductsController extends Controller
           );
         }
       } else {
-        $instance->orderBy('products.id', 'DESC');
+        // $instance->orderBy('products.id', 'DESC');
+        $instance->orderByRaw("
+        CASE 
+            WHEN products.order IS NULL OR products.order = 0 THEN 1 
+            ELSE 0 
+        END ASC, 
+        products.order ASC, 
+        products.id ASC
+    ");
       }
 
       $totalCount = 0;
