@@ -124,10 +124,10 @@
                   <p
                     style="margin: 0; font-size: 12px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em;">
                     Nombre Completo</p>
-                  <p class="margin: 4px 0 0 0; font-size: 15px; font-weight: 500;">{{ $departamentos[0]->description }}
+                  <p class="margin: 4px 0 0 0; font-size: 15px; font-weight: 500;">{{ $departamentos->description }}
                     -
-                    {{ $provincias[0]->description }} -
-                    {{ $distritos[0]->description }}</p>
+                    {{ $provincias->description }} -
+                    {{ $distritos->description }}</p>
                   <p style="margin: 4px 0 0 0; font-size: 15px; font-weight: 500;">
                     {{ $orders->usuarioPedido->name ?? ($orders->usuarioPedido->nombre ?? '') }}
                     {{ $orders->usuarioPedido->lastname ?? ($orders->usuarioPedido->apellidos ?? '') }}
