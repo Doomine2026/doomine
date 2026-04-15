@@ -186,7 +186,9 @@
                     Total</th>
                 </tr>
               </thead>
-
+              @php
+                $subT = 0.0;
+              @endphp
               <tbody>
                 @foreach ($orders->DetalleOrden as $item)
                   <tr>
@@ -218,6 +220,9 @@
                     <td
                       style="padding: 16px 8px; border-bottom: 1px solid #f3f4f6; text-align: right; font-size: 14px; font-weight: 600; color: #1f2937;">
                       S/ {{ $item->precio * $item->cantidad }}
+                      @php
+                        $subT = $subT + $item->precio * $item->cantidad;
+                      @endphp
                     </td>
                   </tr>
                 @endforeach
@@ -229,7 +234,7 @@
                   <td style="padding: 20px 8px 8px 8px; text-align: right; font-size: 14px; color: #6b7280;">Subtotal
                   </td>
                   <td style="padding: 20px 8px 8px 8px; text-align: right; font-size: 14px; color: #1f2937;">S/
-                    {{ number_format($orders->monto, 2) }}</td>
+                    {{ number_format($subT, 2) }}</td>
                 </tr>
                 <tr>
                   <td colspan="2"></td>
