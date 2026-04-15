@@ -217,7 +217,7 @@
 
                     <td
                       style="padding: 16px 8px; border-bottom: 1px solid #f3f4f6; text-align: right; font-size: 14px; font-weight: 600; color: #1f2937;">
-                      S/ {{ number_format($item->precio * $item->cantidad, 2) }}
+                      S/ {{ $item->precio * $item->cantidad }}
                     </td>
                   </tr>
                 @endforeach
@@ -242,7 +242,7 @@
                   <td style="padding: 12px 8px; text-align: right; font-size: 16px; font-weight: 700; color: #111827;">
                     Total</td>
                   <td style="padding: 12px 8px; text-align: right; font-size: 18px; font-weight: 700; color: #3b82f6;">
-                    S/ {{ number_format($orders->monto + $orders->precio_envio, 2) }}</td>
+                    S/ {{ number_format($orders->monto, 2) }}</td>
                 </tr>
               </tfoot>
             </table>

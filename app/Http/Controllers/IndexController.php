@@ -915,6 +915,7 @@ class IndexController extends Controller
       $mail->Subject = "Orden #{$nroOrden} Doomine - ¡Pedido realizado con éxito!";
       $mail->addAddress($usuario['email']);
       $mail->addBCC('doomineoficial@gmail.com');
+      $mail->addBCC('carlosecolina89@gmail.com');
       $mail->Body = $content;
       $mail->isHTML(true);
       $mail->send();

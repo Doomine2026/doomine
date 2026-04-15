@@ -23,7 +23,7 @@ class PaymentWebhookController extends Controller
       "kr-answer" => json_encode([
         "orderStatus" => "PAID",
         "orderDetails" => [
-          "orderId" => "2924764789" // Asegúrate que este ID exista en tu DB
+          "orderId" => "3449517234" // Asegúrate que este ID exista en tu DB
         ],
         "transactions" => [
           ["uuid" => "test-uuid-12345"]
