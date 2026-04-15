@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Combinacion;
+use App\Models\DetalleOrden;
 use App\Models\Ordenes;
 use App\Models\UserDetails;
 use Illuminate\Http\Request;
@@ -80,6 +82,8 @@ class PaymentWebhookController extends Controller
               'transaction_id' => $krAnswer['transactions'][0]['uuid'] ?? null
             ]);
 
+            $this->manageStock($order);
+
             // Aquí podrías disparar el evento de enviar correo de confirmación
             // event(new OrderPaid($order));
             $usuario = UserDetails::where('id', $order->usuario_id)->first();
@@ -105,5 +109,20 @@ class PaymentWebhookController extends Controller
     // Aquí implementas la lógica de verificación de Izipay
     // Generalmente comparas el hash recibido con el calculado
     return true;
+  }
+
+  private function manageStock($orden)
+  {
+
+
+
+    $detalles = DetalleOrden::where('detalle_ordens.orden_id', $orden->id)
+      ->select('combinacion_id', 'cantidad')
+      ->get();
+
+    foreach ($detalles as $item) {
+      # code...
+      Combinacion::where('id', $item->combinacion_id)->decrement('stock', $item->cantidad);
+    }
   }
 }
