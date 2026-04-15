@@ -192,7 +192,7 @@
                   <tr>
 
 
-                    <td style="padding: 16px 8px; border-bottom: 1px solid #f3f4f6;">
+                    <td colspan="2" style="padding: 16px 8px; border-bottom: 1px solid #f3f4f6;">
                       <p style="margin: 0; font-size: 14px; font-weight: 600; color: #1f2937;">
                         {{ $item->producto->producto ?? 'Producto' }}
                       </p>
