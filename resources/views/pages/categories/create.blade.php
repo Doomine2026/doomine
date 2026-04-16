@@ -64,6 +64,67 @@
                 </div>
               </div>
 
+              <div class="md:col-span-5">
+                <div x-data="sizeGuideAdmin()">
+                  <div class="mb-4 space-x-2">
+                    <button type="button" @click="addColumn()" class="bg-blue-500 text-white px-3 py-1 rounded"> +
+                      Añadir Medida (Columna)</button>
+                    <button type="button" @click="addRow()" class="bg-green-500 text-white px-3 py-1 rounded"> + Añadir
+                      Talla (Fila)</button>
+                  </div>
+
+                  <table class="min-w-full border">
+                    <thead>
+                      <tr class="bg-gray-100">
+                        <template x-for="(col, index) in columns" :key="index">
+                          <th class="border px-2 py-1">
+                            <input type="text" x-model="columns[index]"
+                              class="w-full border-none bg-transparent font-bold text-center">
+                          </th>
+                        </template>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <template x-for="(row, rowIndex) in rows" :key="rowIndex">
+                        <tr>
+                          <template x-for="(col, colIndex) in columns" :key="colIndex">
+                            <td class="border px-2 py-1">
+                              <input type="text" x-model="rows[rowIndex][columns[colIndex]]"
+                                class="w-full border-none">
+                            </td>
+                          </template>
+                        </tr>
+                      </template>
+                    </tbody>
+                  </table>
+
+                  <input type="hidden" name="size_guide" :value="JSON.stringify({ columns, rows })">
+                </div>
+
+                <script>
+                  function sizeGuideAdmin() {
+                    return {
+                      // Datos iniciales (puedes cargarlos desde $category->size_guide)
+                      columns: ['Talla', 'Pecho', 'Cintura'],
+                      rows: [{
+                        'Talla': 'S',
+                        'Pecho': '',
+                        'Cintura': ''
+                      }],
+                      addColumn() {
+                        let name = prompt("Nombre de la nueva medida (Ej: Cadera):");
+                        if (name) this.columns.push(name);
+                      },
+                      addRow() {
+                        let newRow = {};
+                        this.columns.forEach(col => newRow[col] = '');
+                        this.rows.push(newRow);
+                      }
+                    }
+                  }
+                </script>
+              </div>
+
               <div class="md:col-span-5 text-right mt-6 flex justify-between">
                 <div class="inline-flex items-end">
                   <a href="{{ URL::previous() }}"

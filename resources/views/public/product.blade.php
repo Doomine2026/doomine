@@ -135,7 +135,88 @@
               </div>
             @endif
 
+            @if ($productos[0]->categoria && $productos[0]->categoria->size_guide)
+              @php
+                $guia = $productos[0]->categoria->size_guide;
+                $columnas = $guia['columns'] ?? [];
+                $filas = $guia['rows'] ?? [];
+              @endphp
 
+              <div x-data="{ open: false }">
+                <div class="flex flex-row gap-2 mt-2 mb-2 items-center cursor-pointer group" @click="open = true">
+                  <img src="/images/svg/cinta-metrica.png" class="w-10 group-hover:scale-110 transition-transform"
+                    alt="Cinta métrica">
+                  <span class="underline text-sm font-medium text-gray-700 group-hover:text-[#FF8555]">Guia de
+                    tallas</span>
+                </div>
+
+                <div x-show="open" x-cloak class="fixed inset-0 z-[99] overflow-y-auto"
+                  @keydown.escape.window="open = false">
+
+                  <div class="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity" @click="open = false"></div>
+
+                  <div class="relative min-h-screen flex items-center justify-center p-4">
+                    <div class="relative bg-white rounded-2xl shadow-2xl max-w-2xl w-full p-6" x-show="open"
+                      x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95"
+                      x-transition:enter-end="opacity-100 scale-100">
+
+                      <div class="flex items-center justify-between mb-4 border-b pb-4">
+                        <div class="flex items-center gap-3">
+                          <img src="/images/svg/cinta-metrica.png" class="w-8" alt="">
+                          <h3 class="text-xl font-bold text-gray-900 uppercase tracking-tight">Guía de Tallas</h3>
+                        </div>
+                        <button @click="open = false"
+                          class="text-gray-400 hover:text-gray-600 text-3xl leading-none">&times;</button>
+                      </div>
+
+                      <div class="bg-gray-50 p-3 rounded-lg mb-4">
+                        <p class="text-xs text-gray-600 font-semibold uppercase tracking-wider">
+                          📏 Medidas expresadas en centímetros
+                        </p>
+                      </div>
+
+                      <div class="overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
+                        <table class="w-full text-sm text-center">
+                          <thead class="bg-[#FCD34D] text-gray-900 uppercase font-bold">
+                            <tr>
+                              @foreach ($columnas as $columna)
+                                <th class="px-4 py-3 border-r border-yellow-500/30 last:border-0">
+                                  {{ $columna }}
+                                </th>
+                              @endforeach
+                            </tr>
+                          </thead>
+                          <tbody class="divide-y divide-gray-100">
+                            @foreach ($filas as $fila)
+                              <tr class="hover:bg-yellow-50/50 transition-colors">
+                                @foreach ($columnas as $columna)
+                                  <td class="px-4 py-4 text-gray-700 font-medium">
+                                    {{ $fila[$columna] ?? '-' }}
+                                  </td>
+                                @endforeach
+                              </tr>
+                            @endforeach
+                          </tbody>
+                        </table>
+                      </div>
+
+                      <div class="mt-6 flex justify-center">
+                        <button @click="open = false"
+                          class="bg-gray-900 text-white px-10 py-3 rounded-full font-bold text-sm hover:bg-black transition-all shadow-lg active:scale-95">
+                          CERRAR
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            @endif
+
+            <style>
+              [x-cloak] {
+                display: none !important;
+              }
+            </style>
 
             <div>
 
@@ -150,6 +231,7 @@
               </div>
 
             </div>
+
 
             <div>
               <p class="font-mediumDisplay text-text16 md:text-text20 pb-4 font-bold" id="textoStock">

@@ -77,6 +77,7 @@ class CategoryController extends Controller
         $category->slug = $slug;
         $category->status = 1;
         $category->visible = 1;
+        $category->size_guide = json_decode($request->size_guide, true);
         $category->save();
 
         return redirect()->route('categorias.index')->with('success', 'Categoria creada');
@@ -131,6 +132,7 @@ class CategoryController extends Controller
         $category->name = $request->name;
         $category->description = $request->description;
         $category->slug = $slug;
+        $category->size_guide = json_decode($request->size_guide, true);
         $category->save();
 
         return redirect()->route('categorias.index')->with('success', 'Categoria modificada');
