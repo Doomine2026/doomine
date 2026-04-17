@@ -303,11 +303,11 @@ class IndexController extends Controller
 
     $detalleUsuario = [];
     $user = auth()->user();
-    $N_orden = Ordenes::where('codigo_orden', '=', $codigoCompra)->get()->toArray();
+    $N_orden = Ordenes::where('codigo_orden', '=', $codigoCompra)->first();
     /* if (!isNull($user)) {
       $detalleUsuario = UserDetails::where('email', $user->email)->get();
     } */
-    $detalleUsuario = UserDetails::where('id', $N_orden[0]['usuario_id'])->get();
+    $detalleUsuario = UserDetails::where('id', $N_orden->usuario_id)->get();
 
     $distritos = DB::select('select * from districts where active = ? order by 3', [1]);
     $provincias = DB::select('select * from provinces where active = ? order by 3', [1]);
@@ -318,7 +318,7 @@ class IndexController extends Controller
     // $formToken =  $this->generateFormTokenIzipay();
 
     $url_env = $_ENV['APP_URL'];
-    return view('public.checkout_pago', compact('url_env', 'distritos', 'provincias', 'departamento', 'detalleUsuario', 'formToken', 'codigoCompra'));
+    return view('public.checkout_pago', compact('N_orden', 'url_env', 'distritos', 'provincias', 'departamento', 'detalleUsuario', 'formToken', 'codigoCompra'));
   }
 
   private function generateFormTokenIzipay($amount, $orderId, $email)

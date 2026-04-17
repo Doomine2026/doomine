@@ -242,66 +242,71 @@
                     </div>
                   </div>
 
-                  <div class="flex flex-col gap-5 pb-10 border-b-2 border-[#151515]">
-                    <h2 class="font-semibold text-[20px] text-[#151515]">
-                      Dirección de envío
-                    </h2>
-                    <div class="flex flex-col gap-5">
+
+                  @if ($N_orden->precio_envio > 0)
+                    <div class="flex flex-col gap-5 pb-10 border-b-2 border-[#151515]">
+                      <h2 class="font-semibold text-[20px] text-[#151515]">
+                        Dirección de envío
+                      </h2>
                       <div class="flex flex-col gap-5">
+                        <div class="flex flex-col gap-5">
 
 
-                        <div class="flex flex-col gap-2">
-                          <label for="nombre_calle" class="font-medium text-[12px] text-[#6C7275]">Avenida / Calle /
-                            Jirón</label>
+                          <div class="flex flex-col gap-2">
+                            <label for="nombre_calle" class="font-medium text-[12px] text-[#6C7275]">Avenida / Calle /
+                              Jirón</label>
 
-                          @if (isset($detalleUsuario) && count($detalleUsuario) > 0)
-                            <input id="nombre_calle" type="text" name="dir_av_calle"
-                              placeholder="Ingresa el nombre de la calle"
-                              class="w-full py-3 px-4 focus:outline-none placeholder-gray-400 font-normal text-[16px] border-[1.5px] border-gray-200 rounded-xl text-[#6C7275]"
-                              value="{{ $detalleUsuario[0]->dir_av_calle }}" />
-                          @else
-                            <input id="nombre_calle" type="text" name="dir_av_calle"
-                              placeholder="Ingresa el nombre de la calle"
-                              class="w-full py-3 px-4 focus:outline-none placeholder-gray-400 font-normal text-[16px] border-[1.5px] border-gray-200 rounded-xl text-[#6C7275]" />
-                          @endif
-                        </div>
-                      </div>
-                      <div>
-                        <div class="flex flex-col md:flex-row gap-5">
-                          <div class="basis-1/2 flex flex-col gap-2">
-                            <label for="numero_calle" class="font-medium text-[12px] text-[#6C7275]">Número</label>
                             @if (isset($detalleUsuario) && count($detalleUsuario) > 0)
-                              <input id="numero_calle" name="dir_numero" type="text"
-                                placeholder="Ingresa el número de la callle"
+                              <input id="nombre_calle" type="text" name="dir_av_calle"
+                                placeholder="Ingresa el nombre de la calle"
                                 class="w-full py-3 px-4 focus:outline-none placeholder-gray-400 font-normal text-[16px] border-[1.5px] border-gray-200 rounded-xl text-[#6C7275]"
-                                value="{{ $detalleUsuario[0]->dir_numero }}" />
+                                value="{{ $detalleUsuario[0]->dir_av_calle }}" />
                             @else
-                              <input id="numero_calle" name="dir_numero" type="text"
-                                placeholder="Ingresa el número de la callle"
+                              <input id="nombre_calle" type="text" name="dir_av_calle"
+                                placeholder="Ingresa el nombre de la calle"
                                 class="w-full py-3 px-4 focus:outline-none placeholder-gray-400 font-normal text-[16px] border-[1.5px] border-gray-200 rounded-xl text-[#6C7275]" />
                             @endif
-
                           </div>
+                        </div>
+                        <div>
+                          <div class="flex flex-col md:flex-row gap-5">
+                            <div class="basis-1/2 flex flex-col gap-2">
+                              <label for="numero_calle" class="font-medium text-[12px] text-[#6C7275]">Número</label>
+                              @if (isset($detalleUsuario) && count($detalleUsuario) > 0)
+                                <input id="numero_calle" name="dir_numero" type="text"
+                                  placeholder="Ingresa el número de la callle"
+                                  class="w-full py-3 px-4 focus:outline-none placeholder-gray-400 font-normal text-[16px] border-[1.5px] border-gray-200 rounded-xl text-[#6C7275]"
+                                  value="{{ $detalleUsuario[0]->dir_numero }}" />
+                              @else
+                                <input id="numero_calle" name="dir_numero" type="text"
+                                  placeholder="Ingresa el número de la callle"
+                                  class="w-full py-3 px-4 focus:outline-none placeholder-gray-400 font-normal text-[16px] border-[1.5px] border-gray-200 rounded-xl text-[#6C7275]" />
+                              @endif
 
-                          <div class="basis-1/2 flex flex-col gap-2">
-                            <label for="direccion" class="font-medium text-[12px] text-[#6C7275]">Dpto./ Interior/ Piso/
-                              Lote/ Bloque
-                              (opcional)</label>
-                            @if (isset($detalleUsuario) && count($detalleUsuario) > 0)
-                              <input id="direccion" type="text" name="dir_bloq_lote"
-                                placeholder="Ejem. Casa 3, Dpto 101"
-                                class="w-full py-3 px-4 focus:outline-none placeholder-gray-400 font-normal text-[16px] border-[1.5px] border-gray-200 rounded-xl text-[#6C7275]"
-                                value="{{ $detalleUsuario[0]->dir_bloq_lote }}" />
-                            @else
-                              <input id="direccion" type="text" name="dir_bloq_lote"
-                                placeholder="Ejem. Casa 3, Dpto 101"
-                                class="w-full py-3 px-4 focus:outline-none placeholder-gray-400 font-normal text-[16px] border-[1.5px] border-gray-200 rounded-xl text-[#6C7275]" />
-                            @endif
+                            </div>
+
+                            <div class="basis-1/2 flex flex-col gap-2">
+                              <label for="direccion" class="font-medium text-[12px] text-[#6C7275]">Dpto./ Interior/
+                                Piso/
+                                Lote/ Bloque
+                                (opcional)</label>
+                              @if (isset($detalleUsuario) && count($detalleUsuario) > 0)
+                                <input id="direccion" type="text" name="dir_bloq_lote"
+                                  placeholder="Ejem. Casa 3, Dpto 101"
+                                  class="w-full py-3 px-4 focus:outline-none placeholder-gray-400 font-normal text-[16px] border-[1.5px] border-gray-200 rounded-xl text-[#6C7275]"
+                                  value="{{ $detalleUsuario[0]->dir_bloq_lote }}" />
+                              @else
+                                <input id="direccion" type="text" name="dir_bloq_lote"
+                                  placeholder="Ejem. Casa 3, Dpto 101"
+                                  class="w-full py-3 px-4 focus:outline-none placeholder-gray-400 font-normal text-[16px] border-[1.5px] border-gray-200 rounded-xl text-[#6C7275]" />
+                              @endif
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
+                  @endif
+
 
                   <div class="flex flex-col gap-5 pb-10">
                     <h2 class="font-semibold text-[20px] text-[#151515]">
@@ -480,6 +485,8 @@
       let mensaje = 'El campo'
       let mensajeFinal = ' No pueden estar vacios'
       let hasEmptyFields = false
+      // Convertimos la lógica de PHP a un booleano de JS
+      const requiereEnvio = {{ $N_orden->precio_envio > 0 ? 'true' : 'false' }};
 
 
       if (firstPurchase == 'false') {
@@ -508,12 +515,16 @@
                 break
 
               case 'dir_av_calle':
-                mensaje += ' Avenida/Calle,';
-                hasEmptyFields = true;
+                if (requiereEnvio) {
+                  mensaje += ' Avenida/Calle,';
+                  hasEmptyFields = true;
+                }
                 break
               case 'dir_numero':
-                mensaje += ' Numero,';
-                hasEmptyFields = true;
+                if (requiereEnvio) {
+                  mensaje += ' Numero,';
+                  hasEmptyFields = true;
+                }
                 break
             }
 
@@ -542,18 +553,23 @@
 
 
               case 'dir_av_calle':
-                mensaje += ' Avenida/Calle,';
-                hasEmptyFields = true;
+                if (requiereEnvio) {
+                  mensaje += ' Avenida/Calle,';
+                  hasEmptyFields = true;
+                }
                 break;
               case 'dir_numero':
-                mensaje += ' Numero,';
-                hasEmptyFields = true;
+                if (requiereEnvio) {
+                  mensaje += ' Numero,';
+                  hasEmptyFields = true;
+                }
                 break;
             }
 
 
           }
         })
+
         if (!hasEmptyFields) {
           $('#contenedorIzypay').show();
         } else {
@@ -654,7 +670,8 @@
       // carrito = [...carrito, carrito.total]
       Local.set("carrito", carrito)
       total += tipoEnvio
-      let textEnvio = tipoEnvio == 15 ? 'Envío express' : "Recoger"
+      let textEnvio = tipoEnvio > 0 ? 'Envío express' : "Recoger"
+      console.log('tipoEnvio', tipoEnvio)
 
 
       $('#tipoEnvioDesc').text(textEnvio)
