@@ -186,7 +186,7 @@
 
                       <div class="overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
                         <table class="w-full text-sm text-center">
-                          <thead class="bg-[#FCD34D] text-gray-900 uppercase font-bold">
+                          <thead class="bg-[#266DF0] text-gray-900 uppercase font-bold">
                             <tr>
                               @foreach ($columnas as $columna)
                                 <th class="px-4 py-3 border-r border-yellow-500/30 last:border-0">{{ $columna }}
