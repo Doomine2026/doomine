@@ -16,13 +16,9 @@ class Category extends Model
         'name_image',
         'destacar',
         'visible',
-        'state',
-        'size_guide'
+        'state'
     ];
 
-    protected $casts = [
-        'size_guide' => 'array',
-    ];
 
     // public function subcategories()
     // {

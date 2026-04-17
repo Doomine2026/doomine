@@ -8,15 +8,15 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('categories', function (Blueprint $table) {
+        Schema::table('products', function (Blueprint $table) {
             // Usamos el tipo json para que sea eficiente y flexible
-            $table->json('size_guide')->nullable()->after('name');
+            $table->json('size_guide')->nullable()->after('producto');
         });
     }
 
     public function down(): void
     {
-        Schema::table('categories', function (Blueprint $table) {
+        Schema::table('products', function (Blueprint $table) {
             $table->dropColumn('size_guide');
         });
     }

@@ -537,6 +537,108 @@
                   </div>
 
 
+                  <div class="md:col-span-5">
+                    <div x-data="sizeGuideAdmin(@js($product->size_guide))">
+                      <div class="mb-4 flex gap-2">
+                        <button type="button" @click="addColumn()"
+                          class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700">
+                          + Añadir Medida (Columna)
+                        </button>
+                        <button type="button" @click="addRow()"
+                          class="bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-emerald-700">
+                          + Añadir Talla (Fila)
+                        </button>
+                      </div>
+
+                      <div class="overflow-x-auto border rounded-lg">
+                        <table class="min-w-full divide-y divide-gray-200">
+                          <thead class="bg-gray-50">
+                            <tr>
+                              <template x-for="(col, index) in columns" :key="index">
+                                <th class="px-4 py-2 border">
+                                  <div class="flex items-center group">
+                                    <input type="text" x-model="columns[index]"
+                                      class="w-full border-none bg-transparent font-bold text-center focus:ring-0">
+                                    <button type="button" @click="removeColumn(index)"
+                                      class="text-red-400 hidden group-hover:block ml-1">&times;</button>
+                                  </div>
+                                </th>
+                              </template>
+                            </tr>
+                          </thead>
+                          <tbody class="bg-white divide-y divide-gray-200">
+                            <template x-for="(row, rowIndex) in rows" :key="rowIndex">
+                              <tr>
+                                <template x-for="(col, colIndex) in columns" :key="colIndex">
+                                  <td class="px-2 py-1 border">
+                                    <input type="text" x-model="rows[rowIndex][columns[colIndex]]"
+                                      class="w-full border-none focus:ring-0 text-center text-sm">
+                                  </td>
+                                </template>
+                                <td class="w-10 text-center border">
+                                  <button type="button" @click="removeRow(rowIndex)"
+                                    class="text-red-500 hover:text-red-700 font-bold">&times;</button>
+                                </td>
+                              </tr>
+                            </template>
+                          </tbody>
+                        </table>
+                      </div>
+
+                      <input type="hidden" name="size_guide" :value="JSON.stringify({ columns, rows })">
+                    </div>
+
+                    <script>
+                      function sizeGuideAdmin(initialData) {
+                        // Si no hay datos previos, cargamos una estructura por defecto
+                        const defaultData = {
+                          columns: ['Talla', 'Pecho', 'Cintura', 'Cadera'],
+                          rows: [{
+                            'Talla': 'S',
+                            'Pecho': '',
+                            'Cintura': '',
+                            'Cadera': ''
+                          }]
+                        };
+
+                        const data = initialData || defaultData;
+
+                        return {
+                          columns: data.columns,
+                          rows: data.rows,
+
+                          addColumn() {
+                            let name = prompt("Nombre de la nueva medida (Ej: Largo):");
+                            if (name && !this.columns.includes(name)) {
+                              this.columns.push(name);
+                              // Añadir la propiedad a las filas existentes para evitar errores de undefined
+                              this.rows.forEach(row => row[name] = '');
+                            }
+                          },
+
+                          addRow() {
+                            let newRow = {};
+                            this.columns.forEach(col => newRow[col] = '');
+                            this.rows.push(newRow);
+                          },
+
+                          removeColumn(index) {
+                            if (confirm('¿Eliminar esta columna y todos sus datos?')) {
+                              this.columns.splice(index, 1);
+                            }
+                          },
+
+                          removeRow(index) {
+                            if (this.rows.length > 1) {
+                              this.rows.splice(index, 1);
+                            }
+                          }
+                        }
+                      }
+                    </script>
+                  </div>
+
+
                 </div>
 
 
@@ -831,8 +933,8 @@
                             'name' => 'conbinacion-' . $item->id . '[color]',
                             'id' => 1,
                             'class' => 'mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
                             'options' => $valorAtributo,
                             'defaultValue' => 1,
                             'value' => 'id',

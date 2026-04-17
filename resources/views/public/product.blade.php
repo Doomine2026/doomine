@@ -135,24 +135,33 @@
               </div>
             @endif
 
-            @if ($productos[0]->categoria && $productos[0]->categoria->size_guide)
-              @php
-                $guia = $productos[0]->categoria->size_guide;
-                $columnas = $guia['columns'] ?? [];
-                $filas = $guia['rows'] ?? [];
-              @endphp
+            @php
+              // 1. Extraemos la data
+              $guia = $productos[0]->size_guide;
+              $columnas = $guia['columns'] ?? [];
+              $filas = $guia['rows'] ?? [];
 
+              // 2. Validación de "Contenido Real"
+              // Verificamos que existan columnas Y que al menos una fila tenga algún valor escrito
+              $tieneContenidoReal =
+                  count($columnas) > 0 &&
+                  collect($filas)->contains(function ($fila) {
+                      return collect($fila)->filter(fn($valor) => !empty(trim($valor)))->count() > 0;
+                  });
+            @endphp
+
+            @if ($tieneContenidoReal)
               <div x-data="{ open: false }">
                 <div class="flex flex-row gap-2 mt-2 mb-2 items-center cursor-pointer group" @click="open = true">
                   <img src="/images/svg/cinta-metrica.png" class="w-10 group-hover:scale-110 transition-transform"
                     alt="Cinta métrica">
-                  <span class="underline text-sm font-medium text-gray-700 group-hover:text-[#FF8555]">Guia de
-                    tallas</span>
+                  <span class="underline text-sm font-medium text-gray-700 group-hover:text-[#FF8555]">
+                    Guia de tallas
+                  </span>
                 </div>
 
                 <div x-show="open" x-cloak class="fixed inset-0 z-[99] overflow-y-auto"
                   @keydown.escape.window="open = false">
-
                   <div class="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity" @click="open = false"></div>
 
                   <div class="relative min-h-screen flex items-center justify-center p-4">
@@ -180,21 +189,23 @@
                           <thead class="bg-[#FCD34D] text-gray-900 uppercase font-bold">
                             <tr>
                               @foreach ($columnas as $columna)
-                                <th class="px-4 py-3 border-r border-yellow-500/30 last:border-0">
-                                  {{ $columna }}
+                                <th class="px-4 py-3 border-r border-yellow-500/30 last:border-0">{{ $columna }}
                                 </th>
                               @endforeach
                             </tr>
                           </thead>
                           <tbody class="divide-y divide-gray-100">
                             @foreach ($filas as $fila)
-                              <tr class="hover:bg-yellow-50/50 transition-colors">
-                                @foreach ($columnas as $columna)
-                                  <td class="px-4 py-4 text-gray-700 font-medium">
-                                    {{ $fila[$columna] ?? '-' }}
-                                  </td>
-                                @endforeach
-                              </tr>
+                              {{-- Solo pintamos la fila si no está totalmente vacía --}}
+                              @if (collect($fila)->filter(fn($v) => !empty(trim($v)))->count() > 0)
+                                <tr class="hover:bg-yellow-50/50 transition-colors">
+                                  @foreach ($columnas as $columna)
+                                    <td class="px-4 py-4 text-gray-700 font-medium">
+                                      {{ $fila[$columna] ?? '-' }}
+                                    </td>
+                                  @endforeach
+                                </tr>
+                              @endif
                             @endforeach
                           </tbody>
                         </table>

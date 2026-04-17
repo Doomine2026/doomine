@@ -29,9 +29,14 @@ class Products extends Model
     'categoria_id',
     'collection_id',
     'sku',
-    'order'
+    'order',
+    'size_guide'
   ];
 
+
+  protected $casts = [
+    'size_guide' => 'array',
+  ];
 
   public function categoria()
   {

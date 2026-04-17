@@ -498,6 +498,9 @@ class ProductsController extends Controller
     $cleanedData['description'] = $data['description'];
     $cleanedData['sku'] = $data['sku'];
 
+    $cleanedData['sku'] = $data['sku'];
+    $cleanedData['size_guide'] = json_decode($request->size_guide, true);
+
     if ($data['descuento'] == 0 || is_null($data['descuento'])) {
       $cleanedData['preciofiltro'] = $data['precio'];
     } else {
