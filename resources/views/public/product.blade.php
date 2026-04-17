@@ -189,7 +189,7 @@
                           <thead class="bg-[#266DF0] text-gray-900 uppercase font-bold">
                             <tr>
                               @foreach ($columnas as $columna)
-                                <th class="px-4 py-3 border-r border-yellow-500/30 last:border-0">{{ $columna }}
+                                <th class="px-4 py-3 border-r border-[#548cf5]/40 last:border-0">{{ $columna }}
                                 </th>
                               @endforeach
                             </tr>
@@ -198,7 +198,7 @@
                             @foreach ($filas as $fila)
                               {{-- Solo pintamos la fila si no está totalmente vacía --}}
                               @if (collect($fila)->filter(fn($v) => !empty(trim($v)))->count() > 0)
-                                <tr class="hover:bg-yellow-50/50 transition-colors">
+                                <tr class="hover:bg-blue-50/50 transition-colors">
                                   @foreach ($columnas as $columna)
                                     <td class="px-4 py-4 text-gray-700 font-medium">
                                       {{ $fila[$columna] ?? '-' }}
