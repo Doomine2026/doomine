@@ -451,7 +451,7 @@
             html += `
                           <div class="flex flex-col gap-5 relative  container-enlarge">
                             <img src="{{ asset('${element.name_imagen}') }}" alt="${element.name_imagen}" 
-                            class=" w-full h-72 md:h-96  object-cover" />
+                            class=" w-full h-72 md:h-96  object-contain" />
                             <span><img class="shadow-2xl rounded-sm w-full h-75dvh md:h-75dvh object-cover " src="{{ asset('${element.name_imagen}') }}"></span>
                           </div>
                       `;
@@ -460,7 +460,7 @@
           if (element.type_imagen == 'secondary') {
             html += ` <div >
                         <div class="container-enlarge">
-                          <img class="w-full h-72 md:h-96 object-cover" src="{{ asset('${element.name_imagen}') }}">
+                          <img class="w-full h-72 md:h-96 object-contain" src="{{ asset('${element.name_imagen}') }}">
                           <span><img class="shadow-2xl rounded-sm w-full h-75dvh md:h-75dvh object-cover " src="{{ asset('${element.name_imagen}') }}"></span>
                         </div>
                       </div>
