@@ -488,9 +488,23 @@
       // Convertimos la lógica de PHP a un booleano de JS
       const requiereEnvio = {{ $N_orden->precio_envio > 0 ? 'true' : 'false' }};
 
+      let tipoTarjeta = formDataArray.find(item => item.name === 'tipo_tarjeta');
+
+      if (!tipoTarjeta) {
+        // Si no se encontró (porque no hay nada checked), lo agregamos manualmente
+        // con un valor vacío o un valor por defecto
+        formDataArray.push({
+          name: 'tipo_tarjeta',
+          value: '' // O puedes poner 'ninguno'
+        });
+
+
+      }
+
 
       if (firstPurchase == 'false') {
         formDataArray.forEach(function(item) {
+
           if (item.value.trim() === '') {
             switch (item.name) {
               case 'nombre':
@@ -513,6 +527,10 @@
                 mensaje += ' Celular,';
                 hasEmptyFields = true;
                 break
+              case 'tipo_tarjeta':
+                mensaje += ' Tipo Tarjeta,';
+                hasEmptyFields = true;
+                break
 
               case 'dir_av_calle':
                 if (requiereEnvio) {
@@ -532,19 +550,7 @@
           }
         })
 
-        if (!hasEmptyFields) {
-          $('#contenedorIzypay').show();
-        } else {
-          Swal.fire({
 
-            icon: "warning",
-            title: "Opss ",
-            text: `${mensaje}${mensajeFinal}`
-
-
-          });
-          hasEmptyFields = false
-        }
       } else {
         formDataArray.forEach(function(item) {
           if (item.value.trim() === '') {
@@ -564,26 +570,35 @@
                   hasEmptyFields = true;
                 }
                 break;
+              case 'tipo_tarjeta':
+
+                mensaje += ' Tipo Tarjeta ,';
+                hasEmptyFields = true;
+
+                break;
             }
 
 
           }
         })
 
-        if (!hasEmptyFields) {
-          $('#contenedorIzypay').show();
-        } else {
-          Swal.fire({
-
-            icon: "warning",
-            title: "Opss ",
-            text: `${mensaje}${mensajeFinal}`
 
 
-          });
-          hasEmptyFields = false
-        }
+      }
+      if (!hasEmptyFields) {
+        $('#contenedorIzypay').show();
+      } else {
+        Swal.fire({
 
+          icon: "warning",
+          title: "Opss ",
+          text: `${mensaje}${mensajeFinal}`
+
+
+        });
+        hasEmptyFields = false
+
+        return
       }
 
       $.ajax({
@@ -594,13 +609,13 @@
           codigoCompra: {{ $codigoCompra }}
         },
         success: function(response) {
-          console.log(response)
+
 
           //limpiar carrito de compra
 
         },
         error: function(error) {
-          console.log(error)
+          console.error(error)
         }
       })
     })
@@ -671,7 +686,7 @@
       Local.set("carrito", carrito)
       total += tipoEnvio
       let textEnvio = tipoEnvio > 0 ? 'Envío express' : "Recoger"
-      console.log('tipoEnvio', tipoEnvio)
+
 
 
       $('#tipoEnvioDesc').text(textEnvio)
@@ -799,7 +814,7 @@
 
         },
         success: function(success) {
-          console.log(success);
+
           let {
             producto,
             id,
@@ -846,7 +861,7 @@
 
         },
         error: function(error) {
-          console.log(error)
+          console.error(error)
         }
 
       })

@@ -379,9 +379,9 @@ class IndexController extends Controller
 
       if ($addres_user_id) {
         $addres_user_id->update([
-          'dir_av_calle' => $result['dir_av_calle'],
-          'dir_numero' => $result['dir_numero'],
-          'dir_bloq_lote' => $result['dir_bloq_lote']
+          'dir_av_calle' => $result['dir_av_calle'] ?? '',
+          'dir_numero' => $result['dir_numero'] ?? '',
+          'dir_bloq_lote' => $result['dir_bloq_lote'] ?? ''
         ]);
       }
 
@@ -399,12 +399,10 @@ class IndexController extends Controller
 
 
 
-
-
-
       return response()->json(['message' => 'Todos los datos estan correctos', 'codigoCompra' => $codigoAleatorio]);
     } catch (\Throwable $th) {
       //throw $th;
+
 
       return response()->json(['message' => $th], 400);
     }
