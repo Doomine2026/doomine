@@ -165,6 +165,16 @@ class ProductsController extends Controller
         return !is_null($value);
       });
 
+      $posibleSlug = Str::slug($cleanedData['producto']);
+
+
+
+      if (Products::where('slug', $posibleSlug)->exists()) {
+        $posibleSlug = $posibleSlug . '-' . rand(100, 999);
+      }
+
+
+      $cleanedData['slug'] =  $posibleSlug;
       $cleanedData['size_guide'] =  json_decode($request->size_guide, true);
 
       $producto = Products::create($cleanedData);

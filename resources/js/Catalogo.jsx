@@ -994,7 +994,7 @@ export default function Catalogo(props) {
 
                     <div className="addProduct text-center flex justify-center">
 
-                      <a href={appUrl + "/producto/" + item.id}
+                      <a href={appUrl + "/producto/" + item.slug}
                         className="leading-none font-mediumDisplay text-text12 md:text-text14 bg-[#000000] px-1 py-2 md:py-2 2lg:px-5 flex-initial w-32 md:w-36 2lg:py-3 2lg:w-52 text-center text-white rounded-3xl xl:text-text20 xl:w-60">
                         Ver producto
                       </a>

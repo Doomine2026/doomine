@@ -80,7 +80,7 @@ Route::get('/pago', [IndexController::class, 'pago'])->name('pago');
 Route::post('/procesar/pago', [IndexController::class, 'procesarPago'])->name('procesar.pago');
 Route::post('/agradecimiento', [IndexController::class, 'agradecimiento'])->name('agradecimiento');
 /* Catálogo y producto */
-Route::get('/producto/{id}', [IndexController::class, 'producto'])->name('producto');
+Route::get('/producto/{slug}', [IndexController::class, 'producto'])->name('producto');
 Route::get('/catalogo/{filtro}', [IndexController::class, 'catalogo'])->name('catalogo');
 Route::post('carrito/buscarProducto', [CarritoController::class, 'buscarProducto'])->name('carrito.buscarProducto');
 Route::get('/coleccion/{filtro}', [IndexController::class, 'coleccion'])->name('coleccion');

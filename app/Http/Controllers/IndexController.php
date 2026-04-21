@@ -657,10 +657,11 @@ class IndexController extends Controller
     );
   }
 
-  public function producto(string $id)
+  public function producto(string $slug)
   {
 
-    $product = Products::findOrFail($id);
+    // Opción correcta 1
+    $product = Products::where('slug', $slug)->firstOrFail();
 
     $colors = DB::table('products')
       ->join('combinaciones', 'products.id', '=', 'combinaciones.product_id')
@@ -672,7 +673,7 @@ class IndexController extends Controller
         'attributes_values.color',
         DB::raw('JSON_ARRAYAGG(JSON_OBJECT("talla_id", combinaciones.talla_id, "stock", combinaciones.stock)) as tallas')
       ])
-      ->where('combinaciones.product_id', $id)
+      ->where('combinaciones.product_id', $product->id)
       ->where('combinaciones.stock', '>', 0)
       ->groupBy('attributes_values.id', 'products.id', 'attributes_values.valor', 'attributes_values.color')
       ->get();
@@ -680,10 +681,10 @@ class IndexController extends Controller
 
 
 
-    $productos = Products::where('id', '=', $id)->with('attributes')->with('tags')->get();
+    $productos = Products::where('slug', '=', $slug)->with('attributes')->with('tags')->get();
 
     // $especificaciones = Specifications::where('product_id', '=', $id)->get();
-    $especificaciones = Specifications::where('product_id', '=', $id)
+    $especificaciones = Specifications::where('product_id', '=', $product->id)
       ->where(function ($query) {
         $query->whereNotNull('tittle')->orWhereNotNull('specifications');
       })
@@ -693,9 +694,9 @@ class IndexController extends Controller
             SELECT products.*, galeries.*
             FROM products
             INNER JOIN galeries ON products.id = galeries.product_id
-            WHERE products.id = :productId limit 5
+            WHERE products.slug = :Pslug limit 5
         ",
-      ['productId' => $id],
+      ['Pslug' => $slug],
     );
 
     $IdProductosComplementarios = $productos->toArray();

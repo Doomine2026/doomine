@@ -474,7 +474,8 @@
         let html = '';
 
         tallas.forEach(element => {
-          if (element) {
+
+          if (element.stock > 0) {
             html += `
                           <div class="tallas flex justify-center items-center border-2 w-full rounded-lg cursor-pointer" data-combinacion="${element.id}">
                               <p class="tallasombreado py-5 px-4 w-full text-center transition">

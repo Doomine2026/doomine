@@ -252,7 +252,7 @@
                 @endforeach
 
                 <div class="addProduct text-center flex justify-center">
-                  <a href="{{ route('producto', $item->id) }}"
+                  <a href="{{ route('producto', $item->slug) }}"
                     class="leading-none font-mediumDisplay text-text12 md:text-text14 bg-[#000000] px-1 py-2 md:py-2 lg:px-5 flex-initial w-32 md:w-36 lg:py-3 lg:w-52 text-center text-white rounded-3xl xl:text-text20 xl:w-60">
                     Ver producto
                   </a>
@@ -262,7 +262,7 @@
               <div class="flex flex-col gap-2">
                 <div
                   class="flex flex-col 2xl:flex-row md:justify-between font-boldDisplay text-black gap-2 order-2 lg:order-1">
-                  <a href="{{ route('producto', $item->id) }}" class="text-text14 md:text-text16 xl:text-text20">
+                  <a href="{{ route('producto', $item->slug) }}" class="text-text14 md:text-text16 xl:text-text20">
                     {{ $item->producto }}
                   </a>
                   <div class="flex font-boldDisplay text-black items-center gap-2">
@@ -372,7 +372,7 @@
                 @endforeach
 
                 <div class="addProduct text-center flex justify-center">
-                  <a href="{{ route('producto', $item->id) }}"
+                  <a href="{{ route('producto', $item->slug) }}"
                     class="leading-none font-mediumDisplay text-text12 md:text-text14 bg-[#000000] px-1 py-2 md:py-2 lg:px-5 flex-initial w-32 md:w-36 lg:py-3 lg:w-52 text-center text-white rounded-3xl xl:text-text20 xl:w-60">
                     Ver producto
                   </a>
@@ -382,7 +382,7 @@
               <div class="flex flex-col gap-2">
                 <div
                   class="flex flex-col 2xl:flex-row md:justify-between font-boldDisplay text-black gap-2 order-2 lg:order-1">
-                  <a href="{{ route('producto', $item->id) }}" class="text-text14 md:text-text16 xl:text-text20">
+                  <a href="{{ route('producto', $item->slug) }}" class="text-text14 md:text-text16 xl:text-text20">
                     {{ $item->producto }}
                   </a>
                   <div class="flex font-boldDisplay text-black items-center gap-2">
