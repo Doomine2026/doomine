@@ -26,6 +26,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+
+        \App\Models\Combinacion::observe(\App\Observers\CombinacionObserver::class);
+
         View::composer('components.public.footer', function ($view) {
             // Obtener los datos del footer
             $datosgenerales = General::all(); // Suponiendo que tienes un modelo Footer y un método footerData() en él
@@ -40,30 +43,28 @@ class AppServiceProvider extends ServiceProvider
             $generalinfo = General::first();
             // Pasar los datos a la vista
             $view->with('submenucategorias', $submenucategorias)
-                    ->with('generalinfo', $generalinfo)
-                 ->with('submenucolecciones', $submenucolecciones);
+                ->with('generalinfo', $generalinfo)
+                ->with('submenucolecciones', $submenucolecciones);
         });
-        
+
         View::composer('auth.login', function ($view) {
             // Obtener los datos del footer
-            
+
             $generalinfo = General::first();
             // Pasar los datos a la vista
-            $view->with('generalinfo', $generalinfo)
-                 ;
+            $view->with('generalinfo', $generalinfo);
         });
 
         View::composer('components.app.sidebar', function ($view) {
             // Obtener los datos del footer
-            $mensajes = Message::where('is_read', '!=', 1 )->where('source', '!=', 'Landing - Set Madrid')->where('status', '!=', 0)->count(); // Suponiendo que tienes un modelo Footer y un método footerData() en él
-            $mensajeslanding = Message::where('is_read', '!=', 1 )->where('source' , '=', 'Landing - Set Madrid' )->where('status', '!=', 0)->count(); // Suponiendo que tienes un modelo Footer y un método footerData() en él
-            
+            $mensajes = Message::where('is_read', '!=', 1)->where('source', '!=', 'Landing - Set Madrid')->where('status', '!=', 0)->count(); // Suponiendo que tienes un modelo Footer y un método footerData() en él
+            $mensajeslanding = Message::where('is_read', '!=', 1)->where('source', '=', 'Landing - Set Madrid')->where('status', '!=', 0)->count(); // Suponiendo que tienes un modelo Footer y un método footerData() en él
+
             // Pasar los datos a la vista
             $view->with('mensajes', $mensajes)
-                 ->with('mensajeslanding', $mensajeslanding);
-            ;
+                ->with('mensajeslanding', $mensajeslanding);;
         });
 
-         PaginationPaginator::useTailwind();   
+        PaginationPaginator::useTailwind();
     }
 }

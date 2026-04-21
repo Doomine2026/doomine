@@ -21,6 +21,7 @@ class CatalogoController extends Controller
       ->leftJoin('combinaciones', 'combinaciones.product_id', 'products.id')
       ->where('products.status', 1)
       ->where('categories.visible', 1)
+      ->where('products.stock', '>', 0)
       ->get();
     $items = [];
 
