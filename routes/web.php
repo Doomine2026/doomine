@@ -21,6 +21,7 @@ use App\Http\Controllers\TestimonyController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CarritoController;
+use App\Http\Controllers\CatalogoController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\DescargarPdfController;
 use App\Http\Controllers\FaqsController;
@@ -68,6 +69,8 @@ Route::post('/comentario/nuevo', [IndexController::class, 'hacerComentario'])->n
 Route::get('/contacto', [IndexController::class, 'contacto'])->name('contacto');
 Route::get('/preguntasFrecuentes', [IndexController::class, 'preguntasFrecuentes'])->name('preguntasFrecuentes');
 Route::get('/madrid', [IndexController::class, 'landing'])->name('landing');
+
+Route::get('/facebook-feed.xml', [CatalogoController::class, 'facebookFeed']);
 
 
 
