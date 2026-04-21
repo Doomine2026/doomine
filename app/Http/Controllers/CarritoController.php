@@ -64,24 +64,26 @@ class CarritoController extends Controller
         //
     }
 
-    public function buscarProducto(Request $request){
-       $id =  $request->id; 
-       $cantidad =  (int)$request->cantidad; 
-       
+    public function buscarProducto(Request $request)
+    {
+        $slug =  $request->id;
+        $cantidad =  (int)$request->cantidad;
+
         //busco producto 
 
-        $producto = Products::find($id);
+        $producto = Products::where('slug', $slug)->first();
         $attributos = AttributesValues::find($request->colorId);
 
-        $caratula = Products::where('id', '=', $id)
-        ->with([ 'images' => function($query){
-            $query->where('caratula', 1);
-        }
+        $caratula = Products::where('slug', '=', $slug)
+            ->with([
+                'images' => function ($query) {
+                    $query->where('caratula', 1);
+                }
 
-        ])->first();
+            ])->first();
 
-        
-        return response()->json(['message' => 'Producto encontrado ', 'data' => $producto , 'cantidad'=> $cantidad , 'caratula' => $caratula , 'valorAtributo' => $attributos] );
+
+        return response()->json(['message' => 'Producto encontrado ', 'data' => $producto, 'cantidad' => $cantidad, 'caratula' => $caratula, 'valorAtributo' => $attributos]);
     }
 }
 
