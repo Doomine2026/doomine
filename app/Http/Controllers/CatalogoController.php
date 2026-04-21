@@ -56,7 +56,7 @@ class CatalogoController extends Controller
       'id'          => $product->id,
       'title'       => $product->producto,
       'description' => strip_tags($product->description), // strip_tags por si viene con HTML
-      'link'        => url("/producto/{$product->id}"),
+      'link'        => url("/producto/{$product->slug}"),
       'image_link'  => asset($pathImagen),
       'price'       => number_format($precioFinal, 2, '.', '') . ' PEN',
       'brand'       => 'Doomine',
