@@ -165,6 +165,8 @@ class ProductsController extends Controller
         return !is_null($value);
       });
 
+      $cleanedData['size_guide'] =  json_decode($request->size_guide, true);
+
       $producto = Products::create($cleanedData);
 
       if ($producto['descuento'] == 0 || is_null($producto['descuento'])) {
