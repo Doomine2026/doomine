@@ -302,7 +302,7 @@
               data.forEach(function(result) {
                 resultsHtml +=
                   `
-                  <a href="/producto/${result.id}">
+                  <a href="/producto/${result.slug}">
                       <div class="w-full flex flex-row py-3 px-5 hover:bg-slate-200">
                           <div class="w-[10%]">
                               <img class="w-14 rounded-md" src="${url}${result?.images[0]?.name_imagen ?? result.imagen}" />
