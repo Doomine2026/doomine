@@ -581,11 +581,11 @@
               <p class="text-text14 md:text-text16 xl:text-text20">${item.producto}</p>
               <div class="flex flex-col md:flex-row font-boldDisplay text-black items-start gap-1">
                 ${item.descuento == 0 ? `<p class="text-text14 md:text-text16 xl:text-text20">s/${item.precio}</p>` : `
-                                                                                                <div class="flex flex-row gap-2">
-                                                                                                  <p class="text-text14 md:text-text16 xl:text-text20">s/${item.descuento}</p>
-                                                                                                  <p class="text-text10 md:text-text16 line-through text-gray-400 font-mediumDisplay xl:text-text18">s/${item.precio}</p>
-                                                                                                </div>
-                                                                                              `}
+                                                                                                  <div class="flex flex-row gap-2">
+                                                                                                    <p class="text-text14 md:text-text16 xl:text-text20">s/${item.descuento}</p>
+                                                                                                    <p class="text-text10 md:text-text16 line-through text-gray-400 font-mediumDisplay xl:text-text18">s/${item.precio}</p>
+                                                                                                  </div>
+                                                                                                `}
               </div>
             </div>
             <div class="order-1 lg:order-2">
@@ -597,7 +597,7 @@
           <div class="absolute top-[10px] left-[10px] md:top-[10px] md:left-[10px]">
             <div class="flex gap-3 flex-wrap">
               <span class="bg-red-800 text-xs md:text-sm text-white me-2 px-2.5 py-1 rounded dark:bg-yellow-900 dark:text-yellow-300 shadow-2xl">
-                ${Math.round(((item.precio - item.descuento) * 100) / item.precio)}% <br class="block md:hidden"> OFF
+                ${Math.round(((item.precio - item.descuento) * 100) / item.precio)}% <br class="block md:hidden"> -
               </span>
             </div>
           </div>

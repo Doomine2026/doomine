@@ -1042,7 +1042,7 @@ export default function Catalogo(props) {
                       <span
                         className="bg-red-800 text-xs md:text-sm text-white me-2 px-2.5 py-1 rounded dark:bg-yellow-900 dark:text-yellow-300 shadow-2xl"
                       >
-                        {Math.round(((item.precio - item.descuento) * 100) / item.precio)}% <br className="block md:hidden" /> OFF
+                        - {Math.round(((item.precio - item.descuento) * 100) / item.precio)}% <br className="block md:hidden" />
                       </span>
 
 
