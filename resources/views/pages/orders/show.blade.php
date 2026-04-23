@@ -27,121 +27,120 @@
         <div class="flex flex-col gap-2 " id="containerImprimir">
           <div class="flex gap-2 p-3 ">
 
-            <div class="basis-0 md:basis-3/5">
+            <div class="basis-0 md:basis-4/6">
               <div class="rounded shadow-lg p-4">
 
 
 
-                <div class="bg-white rounded-lg shadow-lg px-8 py-4 max-w-xl mx-auto">
-                  <div class="flex items-center justify-between mb-8">
-                    <div class="flex items-center">
-                      <img class="" src="{{ asset('images/img/logo.png') }}" alt="Logo" />
 
-                    </div>
-                    <div class="text-gray-700">
+                <div class="flex items-center justify-between mb-8">
+                  <div class="flex items-center">
+                    <img class="" src="{{ asset('images/img/logo.png') }}" alt="Logo" />
 
-                      <div class="text-sm">Fecha: {{ $orders->created_at ?? '' }}</div>
-                      <div class="text-sm">Pedido #{{ $orders->codigo_orden ?? '' }}</div>
-                    </div>
                   </div>
-                  <div class="border-b-2 border-gray-300 pb-3 mb-3">
-                    <h2 class="text-xl font-bold mb-4">Informacion del cliente</h2>
-                    <div class="ml-1 text-slate-800 dark:text-slate-100 text-sm">
-                      {{ $orders->usuarioPedido->name ?? '' }} {{ $orders->usuarioPedido->lastname ?? '' }}</div>
-                    <div class="ml-1 text-slate-800 dark:text-slate-100 text-sm">{{ $direccion->dir_av_calle ?? '' }} -
-                      {{ $direccion->dir_numero ?? '' }}</div>
-                    <div class="ml-1 text-slate-800 dark:text-slate-100 text-sm">{{ $direccion->dir_bloq_lote ?? '' }}
-                    </div>
-                    <div class="ml-1 text-slate-800 dark:text-slate-100 text-sm">
-                      {{ $orders->usuarioPedido->email ?? '' }}</div>
-                    <div class="ml-1 text-slate-800 dark:text-slate-100 text-sm">
-                      {{ $orders->usuarioPedido->nombre ?? '' }} {{ $orders->usuarioPedido->apellidos ?? '' }}</div>
+                  <div class="text-gray-700">
 
-                    <div class="ml-1 text-slate-800 dark:text-slate-100 text-sm">
-                      {{ $orders->usuarioPedido->dni ?? '' }}</div>
-                    <div class="ml-1 text-slate-800 dark:text-slate-100 text-sm">
-                      {{ $orders->usuarioPedido->phone ?? '' }}</div>
+                    <div class="text-sm">Fecha: {{ $orders->created_at ?? '' }}</div>
+                    <div class="text-sm">Pedido #{{ $orders->codigo_orden ?? '' }}</div>
                   </div>
+                </div>
+                <div class="border-b-2 border-gray-300 pb-3 mb-3">
+                  <h2 class="text-xl font-bold mb-4">Informacion del cliente</h2>
+                  <div class="ml-1 text-slate-800 dark:text-slate-100 text-sm">
+                    {{ $orders->usuarioPedido->name ?? '' }} {{ $orders->usuarioPedido->lastname ?? '' }}</div>
+                  <div class="ml-1 text-slate-800 dark:text-slate-100 text-sm">{{ $direccion->dir_av_calle ?? '' }} -
+                    {{ $direccion->dir_numero ?? '' }}</div>
+                  <div class="ml-1 text-slate-800 dark:text-slate-100 text-sm">{{ $direccion->dir_bloq_lote ?? '' }}
+                  </div>
+                  <div class="ml-1 text-slate-800 dark:text-slate-100 text-sm">
+                    {{ $orders->usuarioPedido->email ?? '' }}</div>
+                  <div class="ml-1 text-slate-800 dark:text-slate-100 text-sm">
+                    {{ $orders->usuarioPedido->nombre ?? '' }} {{ $orders->usuarioPedido->apellidos ?? '' }}</div>
 
-                  <div class="flex flex-col py-4">
-                    <div class="-m-1.5 overflow-x-auto">
-                      <div class="p-1.5 min-w-full inline-block align-middle">
-                        <div class="border rounded-lg overflow-hidden">
-                          <table class="min-w-full ">
-                            <thead>
+                  <div class="ml-1 text-slate-800 dark:text-slate-100 text-sm">
+                    {{ $orders->usuarioPedido->dni ?? '' }}</div>
+                  <div class="ml-1 text-slate-800 dark:text-slate-100 text-sm">
+                    {{ $orders->usuarioPedido->phone ?? '' }}</div>
+                </div>
+
+                <div class="flex flex-col py-4">
+                  <div class="-m-1.5 overflow-x-auto">
+                    <div class="p-1.5 min-w-full inline-block align-middle">
+                      <div class="border rounded-lg overflow-hidden">
+                        <table class="min-w-full ">
+                          <thead>
+                            <tr>
+                              <th></th>
+                              <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-slate-800 ">
+                                Producto</th>
+                              <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-slate-800  ">
+                                Precio</th>
+                              <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-slate-800 ">
+                                Cantidad</th>
+                              <th scope="col" class="px-6 py-3 text-end text-sm font-medium text-slate-800 ">
+                                Total</th>
+                            </tr>
+                          </thead>
+                          <tbody class="">
+                            @foreach ($orders->DetalleOrden as $item)
                               <tr>
-                                <th></th>
-                                <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-slate-800 ">
-                                  Producto</th>
-                                <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-slate-800  ">
-                                  Precio</th>
-                                <th scope="col" class="px-6 py-3 text-start text-sm font-medium text-slate-800 ">
-                                  Cantidad</th>
-                                <th scope="col" class="px-6 py-3 text-end text-sm font-medium text-slate-800 ">
-                                  Total</th>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
+                                  <div class="flex flex-row items-start gap-4 mt-2">
+                                    <img class="w-44" src="{{ asset($item->imagenProducto->name_imagen ?? '') }}" />
+
+                                  </div>
+                                </td>
+                                <td>
+                                  <p class="">{{ $item->producto->producto ?? '' }}</p>
+                                  <p style="margin: 4px 0 0 0; font-size: 12px; color: #6b7280;">
+                                    @if ($item->color)
+                                      <span style="background: #f3f4f6; padding: 2px 6px; border-radius: 4px;">Color:
+                                        {{ $item->color->valor }}</span>
+                                    @endif
+                                    @if ($item->talla)
+                                      <span
+                                        style="background: #f3f4f6; padding: 2px 6px; border-radius: 4px; margin-left: 4px;">Talla:
+                                        {{ $item->talla->valor }}</span>
+                                    @endif
+                                  </p>
+                                </td>
+                                <td class="px-6 py-4 text-sm font-medium text-gray-800">
+                                  {{ $item->precio ?? '' }}</td>
+                                <td class="px-6 py-4 text-sm font-medium text-gray-800">
+                                  {{ $item->cantidad ?? '' }}</td>
+                                <td class="px-6 py-4 text-sm font-medium text-gray-800">
+                                  {{ $item->precio * $item->cantidad ?? '' }}</td>
                               </tr>
-                            </thead>
-                            <tbody class="">
-                              @foreach ($orders->DetalleOrden as $item)
-                                <tr>
-                                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
-                                    <div class="flex flex-row items-start gap-4 mt-2">
-                                      <img class="w-10"
-                                        src="{{ asset($item->imagenProducto->name_imagen ?? '') }}" />
+                            @endforeach
 
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <p class="">{{ $item->producto->producto ?? '' }}</p>
-                                    <p style="margin: 4px 0 0 0; font-size: 12px; color: #6b7280;">
-                                      @if ($item->color)
-                                        <span style="background: #f3f4f6; padding: 2px 6px; border-radius: 4px;">Color:
-                                          {{ $item->color->valor }}</span>
-                                      @endif
-                                      @if ($item->talla)
-                                        <span
-                                          style="background: #f3f4f6; padding: 2px 6px; border-radius: 4px; margin-left: 4px;">Talla:
-                                          {{ $item->talla->valor }}</span>
-                                      @endif
-                                    </p>
-                                  </td>
-                                  <td class="px-6 py-4 text-sm font-medium text-gray-800">
-                                    {{ $item->precio ?? '' }}</td>
-                                  <td class="px-6 py-4 text-sm font-medium text-gray-800">
-                                    {{ $item->cantidad ?? '' }}</td>
-                                  <td class="px-6 py-4 text-sm font-medium text-gray-800">
-                                    {{ $item->precio * $item->cantidad ?? '' }}</td>
-                                </tr>
-                              @endforeach
+                          </tbody>
 
-                            </tbody>
-
-                          </table>
-                        </div>
+                        </table>
                       </div>
                     </div>
                   </div>
-                  <div class="flex justify-end mb-1">
-                    <div class="px-6  text-end text-sm font-medium text-slate-800">Subtotal:</div>
-                    <div class="text-slate-800 text-sm mr-3">S/{{ $subtotal }}</div>
-                  </div>
-                  <div class="flex justify-end mb-4">
-                    <div class="px-6  text-end text-sm font-medium text-slate-800">Costo de envio:</div>
-                    <div class="text-slate-800 text-sm mr-3">S/{{ $orders->precio_envio }}</div>
+                </div>
+                <div class="flex justify-end mb-1">
+                  <div class="px-6  text-end text-sm font-medium text-slate-800">Subtotal:</div>
+                  <div class="text-slate-800 text-sm mr-3">S/{{ $subtotal }}</div>
+                </div>
+                <div class="flex justify-end mb-4">
+                  <div class="px-6  text-end text-sm font-medium text-slate-800">Costo de envio:</div>
+                  <div class="text-slate-800 text-sm mr-3">S/{{ $orders->precio_envio }}</div>
 
-                  </div>
-                  <div class="flex justify-end mb-8">
-                    <div class="px-6  text-end text-sm font-medium text-slate-800">Total:</div>
-                    <div class="text-slate-800 font-bold text-md mr-3">S/{{ $orders->monto }}</div>
-                  </div>
-                  {{-- <div class="border-t-2 border-gray-300 pt-8 mb-8">
+                </div>
+                <div class="flex justify-end mb-8">
+                  <div class="px-6  text-end text-sm font-medium text-slate-800">Total:</div>
+                  <div class="text-slate-800 font-bold text-md mr-3">S/{{ $orders->monto }}</div>
+                </div>
+                {{-- <div class="border-t-2 border-gray-300 pt-8 mb-8">
                                               <div class="text-gray-700 mb-2">Payment is due within 30 days. Late payments
                                                   are subject to fees.</div>
                                               <div class="text-gray-700 mb-2">Please make checks payable to Your Company
                                                   Name and mail to:</div>
                                               <div class="text-gray-700">123 Main St., Anytown, USA 12345</div>
                                           </div> --}}
-                </div>
+
 
 
 
@@ -149,7 +148,7 @@
               </div>
             </div>
 
-            <div class="basis-0 md:basis-2/5">
+            <div class="basis-0 md:basis-2/6">
               <div class="rounded shadow-lg p-4">
 
                 <h2 class="font-semibold text-slate-800 dark:text-slate-100 text-md ml-1">Direccion de envio:</h2>
