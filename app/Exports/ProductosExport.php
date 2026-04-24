@@ -42,7 +42,7 @@ class ProductosExport implements FromQuery, WithHeadings, WithMapping, WithEvent
             $product->producto,
             $product->precio,
             $product->descuento,
-            $product->sku,
+            '' // $product->sku,
             $product->costo_x_art,
             '', // empty cell for color
             '', // empty cell for talla
@@ -57,7 +57,7 @@ class ProductosExport implements FromQuery, WithHeadings, WithMapping, WithEvent
                 '', // empty cell for product name
                 '', // empty cell for price
                 '', // empty cell for discount
-                '', // empty cell for SKU
+                $combination->sku,, // empty cell for SKU
                 '', // empty cell for cost per product
                 $combination->color->valor ?? 'N/A',
                 $combination->talla->valor ?? 'N/A',
