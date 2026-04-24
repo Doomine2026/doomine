@@ -15,13 +15,21 @@ class ProductosExport implements FromQuery, WithHeadings, WithMapping, WithEvent
 {
     public function query()
     {
-        return Products::query()->with('combinations');
+        return Products::query()->with('combinations')->where("status", "=", true);
     }
 
     public function headings(): array
     {
         return [
-            'Producto ID', 'Producto Nombre', 'Precio', 'Descuento', 'SKU', 'Costo por Producto', 'Color', 'Talla', 'Stock'
+            'Producto ID',
+            'Producto Nombre',
+            'Precio',
+            'Descuento',
+            'SKU',
+            'Costo por Producto',
+            'Color',
+            'Talla',
+            'Stock'
         ];
     }
 
