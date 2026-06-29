@@ -987,7 +987,7 @@ export default function Catalogo(props) {
                     {
 
                       <img src={appUrl + '/' + caratula.name_imagen} alt={caratula.name}
-                        className="w-full h-full hover:scale-110 transition-all duration-300 border-none" onError={(e) => e.target.src = '/images/img/noimagen.jpg'} />
+                        className="w-full h-[253px]  md:h-full object-cover hover:scale-110 transition-all duration-300 border-none" onError={(e) => e.target.src = '/images/img/noimagen.jpg'} />
 
                     }
 
