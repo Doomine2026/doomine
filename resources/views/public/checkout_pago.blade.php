@@ -342,10 +342,11 @@
 
 
                     <div class="pt-10">
-                      <a id="pagarProductos"
+                      <button type="button"
+                      id="pagarProductos"
                         class="text-white bg-[#74A68D] w-full py-3 rounded-3xl cursor-pointer border-2 font-semibold text-[16px] 
                         inline-block text-center border-none">Validar
-                        Datos</a>
+                        Datos</button>
 
                     </div>
 
@@ -475,6 +476,7 @@
   <script>
     $('#pagarProductos').on('click', function(e) {
       e.preventDefault()
+      e.stopPropagation();
 
       let url = window.location.href;
       const urlObj = new URL(url);
@@ -598,7 +600,7 @@
         });
         hasEmptyFields = false
 
-        return
+        return false;
       }
 
       $.ajax({
